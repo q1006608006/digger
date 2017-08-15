@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="MFMP:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <root id="archive" name="MFMP.war">
+      <element id="artifact" artifact-name="MFMP:war exploded" />
+    </root>
+  </artifact>
+</component>

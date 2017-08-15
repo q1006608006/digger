@@ -1,0 +1,16 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-war" name="MFMP:war exploded">
+    <output-path>$PROJECT_DIR$/target/MFMP</output-path>
+    <root id="root">
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="classes">
+          <element id="module-output" name="MFMP" />
+        </element>
+      </element>
+      <element id="directory" name="META-INF">
+        <element id="file-copy" path="$PROJECT_DIR$/target/MFMP/META-INF/MANIFEST.MF" />
+      </element>
+      <element id="javaee-facet-resources" facet="MFMP/web/Web" />
+    </root>
+  </artifact>
+</component>
