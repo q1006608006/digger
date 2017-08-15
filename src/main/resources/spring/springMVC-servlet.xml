@@ -19,6 +19,13 @@
     <context:component-scan base-package="top.ivan.controller" />
 
     <bean id="helloController" class="top.ivan.controller.HelloController">
-        <property name="beanName" value="ok"></property>
+        <property name="page" ref="page"/>
+    </bean>
+
+
+    <bean id="page" class="top.ivan.domain.Page">
+        <property name="title" value="hello"/>
+        <property name="content" value="wqrqwer"/>
+        <property name="length" value="123"/>
     </bean>
 </beans>
