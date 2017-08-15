@@ -6,13 +6,8 @@
     </artifacts-to-build>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1a2cc986-8f03-48e1-8113-c6dbb16909b8" name="Default" comment="#M start a springMVC project">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/top/ivan/controller/HelloController.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/resources/spring/spring-default.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/resources/spring/springMVC-servlet.xml" />
+    <list default="true" id="1a2cc986-8f03-48e1-8113-c6dbb16909b8" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MFMP.iml" afterPath="$PROJECT_DIR$/MFMP.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/web.xml" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/web.xml" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -494,7 +489,7 @@
       <option name="presentableId" value="Default" />
       <updated>1502757474248</updated>
       <workItem from="1502757476902" duration="60000" />
-      <workItem from="1502758689123" duration="1703000" />
+      <workItem from="1502758689123" duration="1717000" />
     </task>
     <task id="LOCAL-00001" summary="#M add maven dependency">
       <created>1502758888044</created>
@@ -517,11 +512,18 @@
       <option name="project" value="LOCAL" />
       <updated>1502760272912</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="#M start a springMVC project">
+      <created>1502760415070</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1502760415070</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1763000" />
+    <option name="totallyTimeSpent" value="1777000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
