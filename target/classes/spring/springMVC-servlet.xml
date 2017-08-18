@@ -18,14 +18,4 @@
     <!-- 设置使用注解的类所在的jar包 -->
     <context:component-scan base-package="top.ivan.controller" />
 
-    <bean id="helloController" class="top.ivan.controller.HelloController">
-        <property name="page" ref="page"/>
-    </bean>
-
-
-    <bean id="page" class="top.ivan.domain.Page">
-        <property name="title" value="hello"/>
-        <property name="content" value="wqrqwer"/>
-        <property name="length" value="123"/>
-    </bean>
 </beans>

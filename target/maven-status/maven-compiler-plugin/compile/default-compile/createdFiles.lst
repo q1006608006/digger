@@ -1,2 +1,4 @@
+top\ivan\domain\TestUserData.class
 top\ivan\domain\Page.class
+top\ivan\dao\TestUserDao.class
 top\ivan\controller\HelloController.class

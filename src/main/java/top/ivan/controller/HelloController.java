@@ -1,27 +1,32 @@
 package top.ivan.controller;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import top.ivan.domain.Page;
+import top.ivan.service.TestUserService;
 
 @Controller
-@RequestMapping("/Hello")
+@RequestMapping("/user")
 public class HelloController {
-    private Page page;
+    private Logger logger = LogManager.getLogger(HelloController.class);
 
-    public Page getPage() {
-        return page;
-    }
+    @Autowired
+    private TestUserService userService;
 
-    public void setPage(Page page) {
-        this.page = page;
-    }
-
-    @RequestMapping("hello")
+    @RequestMapping("/hello")
     public @ResponseBody
     String hello() {
-        return page.getContent();
+        logger.debug("hehe");
+        logger.error("hehe");
+        logger.trace("hehe");
+        logger.info("hehe");
+        logger.warn("hehe");
+        System.out.println("heie2hie");
+        String msg = userService.getUserById(1).getName() + " say hello to you";
+        return msg;
     }
 
 
