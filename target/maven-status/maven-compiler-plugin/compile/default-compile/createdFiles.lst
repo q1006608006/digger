@@ -1,4 +1,8 @@
 top\ivan\domain\TestUserData.class
+top\ivan\dao\TestUserDaoImpl.class
+top\ivan\service\TestUserService.class
 top\ivan\domain\Page.class
+top\ivan\mapper\TestUserMapper.class
 top\ivan\dao\TestUserDao.class
 top\ivan\controller\HelloController.class
+top\ivan\service\TestUserServiceImpl.class
