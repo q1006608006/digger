@@ -7,4 +7,6 @@
         <property name="sqlSessionFactory" ref="sqlSessionFactory"/>
         <property name="mapperInterface" value="com.onemt.view.mapper.ArticleMapper"/>
     </bean>
+
+    <bean id="articleService" class="com.onemt.view.service.ArticleServiceImpl"/>
 </beans>
