@@ -4,11 +4,11 @@
 
 
     <typeAliases>
-        <typeAlias alias="User" type="top.ivan.domain.TestUserData"  />
+        <typeAlias alias="Article" type="com.onemt.view.domain.ArticleData"  />
     </typeAliases>
 
     <mappers>
-        <mapper resource="mybatis/mapper/TestUserMapper.xml" />
+        <mapper resource="mybatis/mapper/ArticleMapper.xml" />
     </mappers>
 
 </configuration>
