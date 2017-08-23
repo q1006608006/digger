@@ -1,6 +1,8 @@
 package com.onemt.view.mapper;
 
+import com.onemt.view.domain.ArticleCondition;
 import com.onemt.view.domain.ArticleData;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -12,7 +14,7 @@ import java.util.List;
  */
 public interface ArticleMapper {
     ArticleData selectArticleById(Long id);
-    List<ArticleData> selectArticleByMediaId(Integer mediaId,Long timestamp);
-    List<ArticleData> selectArticleByCategoryId(Integer categoryId,Long timestamp);
-    List<ArticleData> selectArticleByUrlContain(String contain,Long timestamp);
+    List<ArticleData> selectArticleByMediaId(ArticleCondition condition);
+//    List<ArticleData> selectArticleByCategoryId(Integer categoryId,Long timestamp);
+//    List<ArticleData> selectArticleByUrlContain(String contain,Long timestamp);
 }
