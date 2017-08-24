@@ -4,11 +4,12 @@
 
 
     <typeAliases>
-        <typeAlias alias="Article" type="com.onemt.view.domain.ArticleData"  />
+        <typeAlias type="com.onemt.view.domain.ArticleData" alias="Article"/>
+        <typeAlias type="com.onemt.view.bridge.ArticleCondition" alias="AritcleCondition"/>
     </typeAliases>
 
-    <mappers>
+<!--    <mappers>
         <mapper resource="mybatis/mapper/ArticleMapper.xml" />
-    </mappers>
+    </mappers>-->
 
 </configuration>

@@ -1,7 +1,6 @@
 package com.onemt.view.controller;
 
-import com.onemt.view.domain.ArticleCondition;
-import com.onemt.view.domain.ArticleData;
+import com.onemt.view.bridge.ArticleCondition;
 import com.onemt.view.mapper.ArticleMapper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -9,8 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-
-import java.util.List;
 
 /**
  * description
@@ -29,14 +26,13 @@ public class ViewController {
     @RequestMapping("/hello")
     @ResponseBody
     public String hello() {
-        ArticleData article =  articleMapper.selectArticleById(869618370531904L);
+        logger.info(articleMapper.selectArticleById(875908436619840L));
         ArticleCondition condition = new ArticleCondition();
-        condition.setMediaId(113);
-        condition.setFetchTime(1501144153);
-
-        List<ArticleData> articleDataList = articleMapper.selectArticleByMediaId(condition);
-        return article.getMediaName();
-//        return "你好";
+        condition.addMedia(1);
+        condition.addMedia(2);
+        condition.setFetchTime(1503569284);
+        logger.info(articleMapper.selectArticleByBridge(condition));
+        return "你好";
     }
 
 

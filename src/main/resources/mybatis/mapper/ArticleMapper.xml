@@ -2,25 +2,49 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.onemt.view.mapper.ArticleMapper">
 
-	<resultMap id="articleResultMap" type="com.onemt.view.domain.ArticleData">
+	<sql id="viewColumn">
+		id,
+		mediaCategoryId as categoryId,
+		mediaId,
+		sourceUrl,
+		publishTime,
+		fetchTime,
+		createTime
+	</sql>
+
+<!--	<resultMap id="articleResultMap" type="com.onemt.view.domain.ArticleData">
 		<result property="categoryId" column="mediaCategoryId"/>
 		<result property="isFeatured" column="isFeatured" javaType="java.lang.Boolean"/>
-	</resultMap>
+	</resultMap>-->
 
-    <select id="selectArticleById" parameterType="java.lang.Long" resultMap="articleResultMap">
-        SELECT * FROM crawler_article WHERE id = #{id};
+
+    <select id="selectArticleById" parameterType="long" resultType="Article">
+        SELECT
+        	<include refid="viewColumn"/>
+        FROM
+			crawler_article
+		WHERE
+			id = #{id}
     </select>
 
-    <select id="selectArticleByMediaId" parameterType="com.onemt.view.domain.ArticleCondition" resultMap="articleResultMap">
-		SELECT * from crawler_article WHERE mediaId = #{mediaId} and fetchTime > #{fetchTime}
-		<if test="limit != 0">
-			limit
-			<if test="offset != 0">
-				#{offset},
+	<select id="selectArticleByBridge" parameterType="AritcleCondition" >
+		SELECT
+			<include refid="viewColumn"/>
+		FROM
+			crawler_article
+		WHERE 1=1
+			<if test="null != getMediaBridge()">
+				AND
+				getMediaBridge()
 			</if>
-				#{limit}
-		</if>
-    </select>
+
+			<if test="null != getFetchTimeBridge()">
+				AND
+				getFetchTimeBridge()
+			</if>
+	</select>
+
+
 
 
 </mapper>
