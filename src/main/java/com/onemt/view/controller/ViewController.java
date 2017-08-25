@@ -28,9 +28,16 @@ public class ViewController {
     public String hello() {
         logger.info(articleMapper.selectArticleById(875908436619840L));
         ArticleCondition condition = new ArticleCondition();
-        condition.addMedia(1);
-        condition.addMedia(2);
-        condition.setFetchTime(1503569284);
+//        condition.addMedia(54);
+//        condition.addMedia(611);
+        condition.addCategory(611);
+
+        condition.setFetchTime(1502679806);
+        condition.setEndFetchTime(1502679816);
+
+
+        condition.setOrderBy("publishTime");
+
         logger.info(articleMapper.selectArticleByBridge(condition));
         return "你好";
     }

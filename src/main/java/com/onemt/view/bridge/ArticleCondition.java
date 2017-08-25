@@ -1,8 +1,6 @@
 package com.onemt.view.bridge;
 
-import java.util.Iterator;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.*;
 
 /**
  * description
@@ -24,6 +22,15 @@ public class ArticleCondition {
     private Set<Integer> categorySet;
     private Set<Long> articleSet;
 
+    private String orderBy;
+
+    public String getOrderBy() {
+        return orderBy;
+    }
+
+    public void setOrderBy(String orderBy) {
+        this.orderBy = orderBy;
+    }
 
     public int getFetchTime() {
         return fetchTime;
@@ -122,6 +129,28 @@ public class ArticleCondition {
         articleSet.add(id);
     }
 
+    public List<Integer> getMediaList() {
+        if(mediaSet != null) {
+            return Arrays.asList(mediaSet.toArray(new Integer[mediaSet.size()]));
+        }
+        return null;
+    }
+
+    public List<Integer> getCategoryList() {
+        if(categorySet != null) {
+            return Arrays.asList(categorySet.toArray(new Integer[categorySet.size()]));
+        }
+        return null;
+    }
+
+    public List<Long> getArticleList() {
+        if(articleSet != null) {
+            return Arrays.asList(articleSet.toArray(new Long[articleSet.size()]));
+        }
+        return null;
+    }
+/*
+
     public String getFetchTimeBridge() {
         if(endFetchTime > 0) {
             return String.format("fetchTime between %d and %d",fetchTime,endFetchTime);
@@ -133,16 +162,10 @@ public class ArticleCondition {
             }
         }
     }
+*/
 
-    /**
-     * 该方法仅在值为数值或整形下使用，滥用该方法可能会导致注入
-     * @param builder
-     * @param iterator
-     * @param split
-     * @param open
-     * @param closeOpen
-     * @param <T>
-     */
+/*
+
     private <T> void fixIteratorBridgeBuilder(StringBuilder builder,Iterator<T> iterator,String split,String open,String closeOpen) {
         builder.append(open);
         builder.append(iterator.next());
@@ -151,7 +174,9 @@ public class ArticleCondition {
         }
         builder.append(closeOpen);
     }
+*/
 
+/*
 
     public String getMediaBridge() {
         if(mediaSet != null) {
@@ -171,6 +196,7 @@ public class ArticleCondition {
         return null;
     }
 
+*/
 
 
 }

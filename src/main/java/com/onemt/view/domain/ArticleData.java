@@ -2,7 +2,7 @@ package com.onemt.view.domain;
 
 import org.apache.ibatis.type.Alias;
 
-import java.sql.Date;
+import java.util.Date;
 
 /**
  * description
@@ -18,7 +18,7 @@ public class ArticleData {
     private String sourceUrl;
     private int publishTime;
     private int fetchTime;
-    private int createTime;
+    private Date createTime;
 
     public long getId() {
         return id;
@@ -68,17 +68,17 @@ public class ArticleData {
         this.fetchTime = fetchTime;
     }
 
-    public int getCreateTime() {
+    public Date getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(int createTime) {
+    public void setCreateTime(Date createTime) {
         this.createTime = createTime;
     }
 
     public String toString() {
-        return "article[id:" + id + ";categoryId:" + categoryId + ";mediaId:" +
-                mediaId + ";sourceUrl:" + sourceUrl + ";publishTime:" + publishTime +
-                ";fetchTime:" + fetchTime + ";createTime:" + createTime + "]";
+        return "article[id:" + id + ", categoryId:" + categoryId + ", mediaId:" +
+                mediaId + ", sourceUrl:" + sourceUrl + ", publishTime:" + publishTime +
+                ", fetchTime:" + fetchTime + ", createTime:" + createTime + "]";
     }
 }
