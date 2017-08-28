@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import redis.clients.jedis.Jedis;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * description
  *
@@ -58,5 +61,13 @@ public class ViewController {
     public String input(String param) {
         logger.info("receive parameter " + param);
         return param;
+    }
+
+    @RequestMapping(value = "/json")
+    @ResponseBody
+    public Map<String,String> getJson() {
+        Map<String,String> ret = new HashMap<String, String>();
+        ret.put("hello","ivan");
+        return ret;
     }
 }
