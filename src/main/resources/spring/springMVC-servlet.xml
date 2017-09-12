@@ -26,29 +26,4 @@
         </mvc:message-converters>
     </mvc:annotation-driven>
 
-  <!--  <bean  class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter" >
-        <property name="messageConverters">
-            <list>
-                <bean class = "org.springframework.http.converter.StringHttpMessageConverter">
-                    <property name = "supportedMediaTypes">
-                        <list>
-                            <value>text/plain;charset=UTF-8</value>
-                        </list>
-                    </property>
-                </bean>
-            </list>
-        </property>
-    </bean>-->
-
-<!--    &lt;!&ndash; @ResponseBody 自动返回json配置 &ndash;&gt;
-    <bean  class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping">
-    </bean>
-    <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
-        <property name="messageConverters">
-            <list>
-                <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter" />
-            </list>
-        </property>
-    </bean>-->
-
 </beans>

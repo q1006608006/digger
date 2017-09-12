@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<sa>
+
+    <shaft id="viewController" class="com.onemt.view.controller.ViewController" proxy="default">
+
+    </shaft>
+
+    <trigger id="dd">
+        <init-config>
+            <param name="abc">123</param>
+        </init-config>
+        <trigger-rule>block top.badtheway.tools.*.*(*)</trigger-rule>
+        <trigger-class>top.badtheway.tools.Test$TriggerImpl</trigger-class>
+    </trigger>
+
+    <!--<shaft id="sdd" class="top.badtheway.tools.Test$TestImpl" proxy="default">
+        <init-value>
+            <parameter type="java.lang.Integer">
+                111
+            </parameter>
+        </init-value>
+        <parameter name="k" type="Integer">
+            1000
+        </parameter>
+        <parameter name="shaft" ref="sdd" example="clone"/>
+    </shaft>-->
+
+    <!--<shaft id="abc" class="top.badtheway.tools.Test$TestImpl">
+        <parameter name="k" type="java.lang.Integer">
+            1000
+        </parameter>
+        <parameter name="shaft" ref="sdd" example="example"/>
+    </shaft>
+    <shaft id="abcd" class="top.badtheway.tools.Test$TestImpl">
+        <parameter name="k" type="java.lang.Integer">
+            1000
+        </parameter>
+        <parameter name="shaft" ref="sdd" example="example"/>
+
+    </shaft>-->
+
+<!--    <trigger id="dd">
+        <init-config>
+            <param name="abc">123</param>
+        </init-config>
+        <trigger-rule>block top.badtheway.tools.*.*(*)</trigger-rule>
+        <trigger-class>top.badtheway.tools.Test$TriggerImpl</trigger-class>
+    </trigger>-->
+</sa>

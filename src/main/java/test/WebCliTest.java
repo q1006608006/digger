@@ -16,8 +16,12 @@ import redis.clients.jedis.Jedis;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.URLDecoder;
 import java.time.LocalDate;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * description
@@ -59,7 +63,7 @@ public class WebCliTest {
 
     @Test
     public void jsoupTest() throws IOException {
-        Document document = Jsoup.connect(TARGET_URL).get();
+        Document document = Jsoup.connect("http://thawra.sy/_View_news.asp?cat=politic").get();
 
         System.out.println(document);
     }
@@ -82,9 +86,10 @@ public class WebCliTest {
         JSONObject itemList = (JSONObject) mods.get("itemlist");
         JSONObject data = (JSONObject) itemList.get("data");
         JSONArray auctions = (JSONArray) data.get("auctions");
-        List<PostBean> postBeans = JSON.parseArray(auctions.toJSONString(), PostBean.class);
-        PostBean postBean = postBeans.get(10);
-        System.out.println(postBean.getDetail_url());
+        System.out.println(auctions.get(1));
+//        List<PostBean> postBeans = JSON.parseArray(auctions.toJSONString(), PostBean.class);
+//        PostBean postBean = postBeans.get(10);
+//        System.out.println(postBean.getDetail_url());
 /*        List<JSONObject> beansList = (List)auctions;
         List<PostBean> postBeans = new LinkedList<PostBean>();
         for(JSONObject beanObj : beansList) {
@@ -101,49 +106,36 @@ public class WebCliTest {
         Elements elements = document.select("#J_defaultData");
         String jsonValue = elements.text();
 //        System.out.println(jsonValue);
+//        System.out.println(jsonValue);
         JSONObject srcObj = JSONObject.parseObject(jsonValue);
         srcObj = (JSONObject) srcObj.get("mockPage");
         srcObj = (JSONObject) srcObj.get("100");
-        for(String key : srcObj.keySet()) {
-            Boolean isArray = srcObj.get(key) instanceof JSONArray ? true : (srcObj.get(key) instanceof JSONObject ? false : null);
+        listJsonObj(srcObj);
 
-            if(null == isArray) {
-                continue;
-            }
-            if(isArray) {
-                listArray((JSONArray) srcObj.get(key));
-            }
-            if(!isArray) {
-                printAction(srcObj);
+    }
+
+    public void listJsonObj(JSONObject jsonObject) {
+        Set<Map.Entry<String,Object>> entries = jsonObject.entrySet();
+        for(Map.Entry<String,Object> entry : entries) {
+            if(entry.getKey().startsWith("action")) {
+                processObj(jsonObject);
+                break;
+            } else if(entry.getValue() instanceof JSONObject) {
+                listJsonObj((JSONObject) entry.getValue());
+            } else if(entry.getValue() instanceof JSONArray ) {
+                listJsonArray((JSONArray) entry.getValue());
             }
         }
     }
 
-    public void printAction(JSONObject object) {
-        if(object.get("action") != null) {
-            printObj(object);
-        }
-    }
-    public void printObj(Object object) {
-        if(object instanceof JSONObject) {
-            System.out.println(object);
-        } else if(object instanceof JSONArray) {
-            listArray((JSONArray) object);
-        }
-    }
-
-    public void listArray(JSONArray array) {
-        System.out.printf("[\n");
+    public void listJsonArray(JSONArray array) {
         for(Object obj : array) {
-            System.out.printf("\t");
-            printAction((JSONObject) obj);
+            listJsonObj((JSONObject) obj);
         }
-        System.out.printf("]\n");
     }
 
-
-    public static class CategoryBean {
-
+    public void processObj(JSONObject jsonObject) {
+        System.out.println(jsonObject);
     }
 
     @Test
