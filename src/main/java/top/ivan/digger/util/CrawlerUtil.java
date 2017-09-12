@@ -7,7 +7,6 @@ import org.jsoup.Jsoup;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.HashMap;
@@ -203,14 +202,15 @@ public class CrawlerUtil {
         }
 
         public synchronized String getBody() throws IOException {
-            if (null == streamLock && streamLock) {
+            if (null != streamLock && !streamLock) {
                 throw new IOException("resource is reflect while you had got the input stream");
             }
             streamLock = false;
             ByteOutputStream bout = new ByteOutputStream();
-            bout.write(getInputStream());
+            InputStream in = connection.getInputStream();
+            bout.write(in);
             String body = new String(bout.getBytes());
-            getInputStream().close();
+            in.close();
             bout.close();
             return body;
         }
@@ -224,7 +224,7 @@ public class CrawlerUtil {
         }
 
         public synchronized InputStream getInputStream() throws IOException {
-            if(null != streamLock && !streamLock) {
+            if (null != streamLock && !streamLock) {
                 throw new IOException("resource is reflect while you had got response body");
             }
             streamLock = true;
