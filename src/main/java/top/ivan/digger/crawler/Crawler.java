@@ -1,6 +1,6 @@
 package top.ivan.digger.crawler;
 
-import top.ivan.digger.task.DiggerTask;
+import top.ivan.digger.domain.DiggerTask;
 
 /**
  * description

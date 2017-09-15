@@ -1,7 +1,12 @@
+import org.jsoup.Connection;
+import org.jsoup.Jsoup;
 import org.junit.Test;
 import top.ivan.digger.util.CrawlerUtil;
 
+import java.io.BufferedReader;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -16,14 +21,38 @@ public class UtilTest {
     @Test
     public void getPage() throws IOException {
 
-        System.out.println(CrawlerUtil.request("https://www.baidu.com").header("User-Agent", "Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.113 Safari/537.36")
-//                .header("Cookie","BAIDUID=F980647C3292B38526CD5D996FBB3DB5:FG=1; BIDUPSID=F980647C3292B38526CD5D996FBB3DB5; PSTM=1501203074; BDUSS=GtCd3RqS1Z-OH5sSlJ0WU1LaEpWWVcwaFhwZTRIQzlsWXdKTkZFRm9NYzVDYjVaTVFBQUFBJCQAAAAAAAAAAAEAAAC3GmkqtPPYvPf2utrYvMzsAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADl8llk5fJZZZ; BDRCVFR[feWj1Vr5u3D]=I67x6TjHwwYf0; BD_CK_SAM=1; PSINO=7; H_PS_645EC=f642szV8egUgir%2Bj3J%2FXsz3ElN%2BmyFi%2BeeAeFAwxfplzXFNKA7k6%2B%2FZAcqYvwA5MLRvK; _gat=1; BD_HOME=1; H_PS_PSSID=1452_21110_17001_24329_24393; BD_UPN=12314353; hibext_instdsigdip=1; _ga=GA1.2.398254850.1505197573; _gid=GA1.2.516595316.1505197573")
-                .response().getBody());
+//        System.out.println(CrawlerUtil.getHtml("http://localhost:18080/view/hello",null,null,null));
+        CrawlerUtil.HttpRequest request = CrawlerUtil.request("https://detail.tmall.com/item.htm?spm=a230r.1.14.12.76bf523kvHIwB&id=558385606674&cm_id=140105335569ed55e27b&abbucket=5&sku_properties=5919063:6536025;12304035:48072;122216431:27772");
+        request.header("Accept-Charset","utf-8")
+                .header("Content-Type","application/json;charset=utf-8");
+        //        request.method("GET");
+        CrawlerUtil.HttpResponse response = null;
+        try {
+            response = request.response();
+//            response.encode("UTF8");
+            String body = response.getBody();
+            System.out.println(response.getHeader());
+
+            FileOutputStream fout = new FileOutputStream("C:\\Users\\Administrator\\Desktop\\myTemp\\shouji_test.html");
+            fout.write(body.getBytes());
+            fout.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+//            response.getInputStream();
+            System.out.println(response.getResponseCode());
+        }
+
+
     }
 
 
     @Test
-    public void testHtmlUnit() {
-
+    public void testHtmlUnit() throws IOException {
+/*        String str = CrawlerUtil.getHtml("https://detail.tmall.com/item.htm?spm=a230r.1.14.12.76bf523kvHIwB&id=558385606674&cm_id=140105335569ed55e27b&abbucket=5&sku_properties=5919063:6536025;12304035:48072;122216431:27772", null, null, null);
+        System.out.println(str);*/
+        Connection connection = Jsoup.connect("https://detail.tmall.com/item.htm?spm=a230r.1.14.12.76bf523kvHIwB&id=558385606674&cm_id=140105335569ed55e27b&abbucket=5&sku_properties=5919063:6536025;12304035:48072;122216431:27772");
+        connection.get();
+        Connection.Response response = connection.response();
+        System.out.println(response.body());
     }
 }

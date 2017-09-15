@@ -1,7 +1,7 @@
 package top.ivan.digger.task;
 
 import top.ivan.digger.Digger;
-import top.ivan.digger.domain.DiggerResult;
+import top.ivan.digger.domain.DiggerTask;
 
 /**
  * description
@@ -10,8 +10,7 @@ import top.ivan.digger.domain.DiggerResult;
  * @date 2017/9/11
  */
 public interface DiggerTaskController {
-    DiggerTask getTask(String id);
-    String register(Digger digger);
+    DiggerTask getTask();
     boolean completeTask(DiggerTask task);
     boolean undoTask(DiggerTask task);
 }
