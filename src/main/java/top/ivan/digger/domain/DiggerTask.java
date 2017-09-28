@@ -1,8 +1,6 @@
 package top.ivan.digger.domain;
 
-import top.ivan.digger.crawler.FilterRule;
-
-import java.util.Map;
+import top.ivan.digger.filter.DiggerFilter;
 
 /**
  * description
@@ -11,19 +9,24 @@ import java.util.Map;
  * @date 2017/9/11
  */
 public class DiggerTask {
-    private Map<String,FilterRule> filterRules;
+    public DiggerTask(String id) {
+        this.id = id;
+    }
+
+    private DiggerFilter filter;
     private String target;
+    private String id;
 
-    public void addRule(String target,FilterRule rule) {
-        filterRules.put(target,rule);
+    public DiggerFilter getFilter() {
+        return filter;
     }
 
-    public Map<String, FilterRule> getFilterRules() {
-        return filterRules;
+    public void setFilter(DiggerFilter filter) {
+        this.filter = filter;
     }
 
-    public void setFilterRules(Map<String, FilterRule> filterRule) {
-        this.filterRules = filterRule;
+    public String getTaskId() {
+        return id;
     }
 
     public String getTarget() {

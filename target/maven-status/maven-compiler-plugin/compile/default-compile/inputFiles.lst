@@ -1,4 +1,11 @@
-D:\workspace\ivan\MFMP\MFMP\src\main\java\top\ivan\domain\Page.java
-D:\workspace\ivan\MFMP\MFMP\src\main\java\top\ivan\controller\HelloController.java
-D:\workspace\ivan\MFMP\MFMP\src\main\java\top\ivan\domain\TestUserData.java
-D:\workspace\ivan\MFMP\MFMP\src\main\java\top\ivan\dao\TestUserDao.java
+D:\workspace\digger\src\main\java\test\SaTest.java
+D:\workspace\digger\src\main\java\top\ivan\digger\crawler\FilterRule.java
+D:\workspace\digger\src\main\java\top\ivan\digger\Digger.java
+D:\workspace\digger\src\main\java\top\ivan\digger\task\DiggerTaskController.java
+D:\workspace\digger\src\main\java\top\ivan\digger\domain\DiggerResult.java
+D:\workspace\digger\src\main\java\top\ivan\digger\crawler\Crawler.java
+D:\workspace\digger\src\main\java\top\ivan\digger\crawler\CrawlerCallback.java
+D:\workspace\digger\src\main\java\top\ivan\digger\crawler\impl\CrawlerImpl.java
+D:\workspace\digger\src\main\java\top\ivan\digger\util\CrawlerUtil.java
+D:\workspace\digger\src\main\java\top\ivan\digger\domain\DiggerTask.java
+D:\workspace\digger\src\main\java\test\WebCliTest.java

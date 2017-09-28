@@ -2,14 +2,13 @@ package top.ivan.digger.util;
 
 import com.sun.istack.internal.Nullable;
 import org.apache.commons.io.output.ByteArrayOutputStream;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
+import java.net.Proxy;
 import java.net.URL;
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
@@ -25,7 +24,6 @@ import java.util.Set;
  * @date 2017/9/12
  */
 public class CrawlerUtil {
-    private static Logger logger = LogManager.getLogger(CrawlerUtil.class);
 
     public static String getHtml(String url, @Nullable Integer timeOut, @Nullable Map<String, String> header, @Nullable Map<String, String> cookies) throws IOException {
         Connection connection = Jsoup.connect(url);
@@ -45,14 +43,20 @@ public class CrawlerUtil {
     }
 
     private static HttpResponse getResponse(HttpURLConnection connection, Request request) throws IOException {
-        Request.fixConnection(connection, request);
         connection.connect();
         int status = connection.getResponseCode();
         if (status != 200) {
-            if (status == 302 || status == 301 || status == 303) {
-                //重定向
-                return getResponse((HttpURLConnection) new URL(connection.getHeaderField("Location")).openConnection(), request);
+            if(request.redirect) {
+                if (status == 302 || status == 301 || status == 303) {
+                    String reUrl = connection.getHeaderField("Location");
+                    //重定向
+                    if (null != reUrl) {
+                        request.setUrl(reUrl);
+                        return getResponse((HttpURLConnection) new URL(reUrl).openConnection(), request);
+                    }
+                }
             }
+            throw new IOException("can not download page with response code " + status);
         }
         HttpResponse response = new HttpResponse(connection);
         response.setOriginRequest(request);
@@ -62,6 +66,7 @@ public class CrawlerUtil {
     public static HttpResponse getResponse(String url, @Nullable Integer timeOut, @Nullable Map<String, String> header, @Nullable Map<String, String> cookies) throws IOException {
         HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
         Request request = new Request(timeOut, header, cookies);
+        Request.fixConnection(connection, request);
         return getResponse(connection, request);
     }
 
@@ -73,10 +78,16 @@ public class CrawlerUtil {
         private Request request;
         private ByteArrayOutputStream outputStream;
         private HttpResponse response;
+        private Proxy proxy;
 
         private HttpRequest(String url) {
             request = new Request();
             this.request.setUrl(url);
+        }
+
+        public HttpRequest proxy(Proxy proxy) {
+            this.proxy = proxy;
+            return this;
         }
 
         private synchronized void initCookie() {
@@ -121,9 +132,11 @@ public class CrawlerUtil {
 
         public synchronized HttpResponse response() throws IOException {
             if (null == response) {
-                HttpURLConnection connection = (HttpURLConnection) new URL(this.request.url).openConnection();
-                if (null != this.request.method) {
-                    connection.setRequestMethod(this.request.method);
+                URL url = new URL(request.url);
+                HttpURLConnection connection = (HttpURLConnection) (null == proxy ? url.openConnection() : url.openConnection(proxy));
+                Request.fixConnection(connection, request);
+                if (null != request.method) {
+                    connection.setRequestMethod(request.method);
                 }
                 if (null != outputStream) {
                     connection.setDoOutput(true);
@@ -147,12 +160,27 @@ public class CrawlerUtil {
             return this;
         }
 
+        public HttpRequest redirect(boolean redirect) {
+            request.setRedirect(redirect);
+            return this;
+        }
+
     }
 
     public static class Request {
         private Map<String, String> header;
         private Map<String, String> cookie;
         private Integer timeout;
+
+        public boolean isRedirect() {
+            return redirect;
+        }
+
+        private void setRedirect(boolean redirect) {
+            this.redirect = redirect;
+        }
+
+        private boolean redirect = false;
 
         private String url;
         private String method;
@@ -246,6 +274,15 @@ public class CrawlerUtil {
         private HttpURLConnection connection;
         private Boolean streamLock = null;
         private byte[] bodyData;
+        private String charset;
+
+        public String getCharset() {
+            return charset;
+        }
+
+        public void setCharset(String charset) {
+            this.charset = charset;
+        }
 
         private HttpResponse(HttpURLConnection connection) {
             this.connection = connection;
@@ -262,9 +299,11 @@ public class CrawlerUtil {
         }
 
         public String getBody() throws IOException {
-            String charset = readCharsetFromContentType(connection.getContentType());
             if (null == charset) {
-                charset = "utf8";
+                charset = readCharsetFromContentType(connection.getContentType());
+                if(null == charset) {
+                    charset = "utf8";
+                }
             }
             return Charset.forName(charset).decode(ByteBuffer.wrap(getBodyAsBytes())).toString();
         }
@@ -280,9 +319,13 @@ public class CrawlerUtil {
             return bodyData;
         }
 
+        private static final String CHARSET_PATTERN = "([\\s\\S]*)?charset=(.*);?([\\s\\S]*)?";
         private static String readCharsetFromContentType(String contentType) {
-            String charset = contentType.replaceAll("([\\s\\S]*)?charset=(.*);?([\\s\\S]*)?", "$2");
-            return charset;
+            if(null != contentType && contentType.matches(CHARSET_PATTERN)) {
+                String charset = contentType.replaceAll(CHARSET_PATTERN, "$2");
+                return charset;
+            }
+            return null;
         }
 
         private static byte[] readAsBytes(InputStream in) throws IOException {

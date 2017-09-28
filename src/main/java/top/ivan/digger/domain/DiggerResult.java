@@ -11,13 +11,13 @@ import java.util.Map;
  * @date 2017/9/11
  */
 public class DiggerResult {
-    private Map<String,List<String>> storeData = new HashMap<>();
+    private Map<String,String> storeData = new HashMap<>();
 
-    public void store(String key,List<String> data) {
-        storeData.put(key,data);
+    public void store(String target,String data) {
+        storeData.put(target,data);
     }
 
-    public Map<String,List<String>> getStoreData() {
+    public Map<String,String> getStoreData() {
         return storeData;
     }
 }

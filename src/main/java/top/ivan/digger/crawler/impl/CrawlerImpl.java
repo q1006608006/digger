@@ -2,13 +2,12 @@ package top.ivan.digger.crawler.impl;
 
 import top.ivan.digger.crawler.Crawler;
 import top.ivan.digger.crawler.CrawlerCallback;
-import top.ivan.digger.crawler.FilterRule;
+import top.ivan.digger.crawler.interceptor.CrawlerSourceInterceptor;
 import top.ivan.digger.domain.DiggerResult;
 import top.ivan.digger.domain.DiggerTask;
-import top.ivan.digger.util.CrawlerUtil;
+import top.ivan.digger.filter.DiggerFilter;
 
 import java.io.IOException;
-import java.util.*;
 
 /**
  * description
@@ -17,49 +16,27 @@ import java.util.*;
  * @date 2017/9/15
  */
 public class CrawlerImpl implements Crawler {
-    @Override
-    public void peek(DiggerTask task, CrawlerCallback callback) {
-        Map<String,FilterRule> ruleMap = task.getFilterRules();
-        Iterator<Map.Entry<String,FilterRule>> ruleItor = ruleMap.entrySet().iterator();
-        Map.Entry<String,FilterRule> entry;
-        String body = null;
-        try {
-           body  = CrawlerUtil.request(task.getTarget()).response().getBody();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        DiggerResult result = new DiggerResult();
-        while (ruleItor.hasNext()) {
-            entry = ruleItor.next();
-            List<String> retList = entry.getValue().filter(body);
-            result.store(entry.getKey(),retList);
-        }
+    private CrawlerSourceInterceptor sourceInterceptor;
 
+    private String getSource(String url) throws IOException {
+        return sourceInterceptor.getSource(url);
+    }
+    @Override
+    public void peek(DiggerTask task, CrawlerCallback callback) throws IOException {
+        String body  = getSource(task.getTarget());
+        DiggerResult result = filterResult(body,task.getFilter());
         callback.callback(result);
     }
 
-    public static void main(String[] args) throws IOException {
+    private DiggerResult filterResult(String source, DiggerFilter filter) {
+        return filter.doFilter(source);
+    }
 
-        for(int i = 0;i < 1;i ++ ) {
-            Crawler crawler = new CrawlerImpl();
-            DiggerTask task = new DiggerTask();
-            task.setTarget("https://detail.tmall.com/item.htm?id=557759288520");
-            Map<String,FilterRule> map = new HashMap<>();
-            map.put("target", new FilterRule() {
-                @Override
-                public List<String> filter(String source) {
-                    String value = source.replaceAll("[\\s\\S]*TShop\\.Setup\\(([\\s\\S]*?)\\);[\\s\\S]*","$1");
-                    List<String> list = new ArrayList<>();
-                    list.add(value);
-                    return list;
-                }
-            });
-            task.setFilterRules(map);
-            crawler.peek(task,result -> {
-                System.out.println(result.getStoreData());
-            });
-        }
+    public CrawlerSourceInterceptor getSourceInterceptor() {
+        return sourceInterceptor;
+    }
 
-
+    public void setSourceInterceptor(CrawlerSourceInterceptor sourceInterceptor) {
+        this.sourceInterceptor = sourceInterceptor;
     }
 }

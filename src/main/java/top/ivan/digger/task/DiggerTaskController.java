@@ -1,6 +1,5 @@
 package top.ivan.digger.task;
 
-import top.ivan.digger.Digger;
 import top.ivan.digger.domain.DiggerTask;
 
 /**
@@ -11,6 +10,8 @@ import top.ivan.digger.domain.DiggerTask;
  */
 public interface DiggerTaskController {
     DiggerTask getTask();
+
     boolean completeTask(DiggerTask task);
+
     boolean undoTask(DiggerTask task);
 }
