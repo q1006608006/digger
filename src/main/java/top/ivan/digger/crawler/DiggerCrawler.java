@@ -11,7 +11,6 @@ public abstract class DiggerCrawler implements Crawler {
     public DiggerCrawler(CrawlerContext context){
         this.context = context;
     }
-
     public CrawlerContext getContext() {
          return context;
     }

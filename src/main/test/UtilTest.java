@@ -109,4 +109,16 @@ public class UtilTest {
             str = reader.readLine();
         }
     }
+
+    @Test
+    public void testBilibili() throws IOException {
+/*        String body = CrawlerUtil.request("http://www.bilibili.com").
+                redirect(true).
+                header("User-Agent","Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.113 Safari/537.36").
+                response().getBody();
+        System.out.println(body);*/
+        String str = Jsoup.connect("http://www.bilibili.com").get().outerHtml();
+        System.out.println(str);
+
+    }
 }
