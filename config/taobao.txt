@@ -12,3 +12,8 @@ example:{"req":"https://rate.tmall.com/list_detail_rate.htm?itemId=41464129793&s
 url:https://s.taobao.com/search?q={item_name}
 response-type:html
 example:{"req":"https://s.taobao.com/search?q=python"}
+
+商品：
+url:https://detail.tmall.com/item.htm?id={item_id}
+response-type:html
+target:noSkipMode{type:json}
