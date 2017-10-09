@@ -58,6 +58,7 @@
           <element id="library" level="project" name="Maven: org.eclipse.jetty:jetty-http:9.4.5.v20170502" />
           <element id="library" level="project" name="Maven: org.eclipse.jetty.websocket:websocket-common:9.4.5.v20170502" />
           <element id="library" level="project" name="Maven: org.eclipse.jetty.websocket:websocket-api:9.4.5.v20170502" />
+          <element id="library" level="project" name="Maven: org.jsoup:jsoup:1.8.3" />
         </element>
       </element>
       <element id="directory" name="META-INF">

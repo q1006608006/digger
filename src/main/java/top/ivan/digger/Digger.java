@@ -41,7 +41,7 @@ public class Digger {
 
     private void init() {
         if (null == crawlerQueue) {
-            crawlerQueue = new LinkedBlockingQueue<>(maxIdle);
+            crawlerQueue = new LinkedBlockingQueue<>();
         }
         if (null == resultQueue) {
             resultQueue = new LinkedBlockingQueue<>();
@@ -104,9 +104,10 @@ public class Digger {
         init();
         isRun = true;
         resultKeeper();
+
+        DiggerCrawler crawler;
+        DiggerTask task;
         while (isRun) {
-            DiggerCrawler crawler;
-            DiggerTask task;
             task = taskController.getTask();
             crawler = takeCrawler();
             threadExecutor.execute(() -> {
@@ -115,6 +116,7 @@ public class Digger {
                     taskController.completeTask(task);
                 } catch (InterruptedException e) {
                     logger.error("blocking queue error:{}", e.getMessage());
+                    taskController.undoTask(task);
                 } catch (Exception e) {
                     taskController.undoTask(task);
                 } finally {

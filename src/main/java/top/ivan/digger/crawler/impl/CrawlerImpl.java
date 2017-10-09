@@ -1,8 +1,6 @@
 package top.ivan.digger.crawler.impl;
 
-import top.ivan.digger.crawler.Crawler;
-import top.ivan.digger.crawler.CrawlerCallback;
-import top.ivan.digger.crawler.interceptor.CrawlerSourceInterceptor;
+import top.ivan.digger.crawler.*;
 import top.ivan.digger.domain.DiggerResult;
 import top.ivan.digger.domain.DiggerTask;
 import top.ivan.digger.filter.DiggerFilter;
@@ -15,15 +13,17 @@ import java.io.IOException;
  * @author Administrator
  * @date 2017/9/15
  */
-public class CrawlerImpl implements Crawler {
-    private CrawlerSourceInterceptor sourceInterceptor;
+public class CrawlerImpl extends DiggerCrawler {
 
-    private String getSource(String url) throws IOException {
-        return sourceInterceptor.getSource(url);
+    protected CrawlerImpl(CrawlerContext context) {
+        super(context);
     }
+
+    private HttpLoader loader;
+
     @Override
     public void peek(DiggerTask task, CrawlerCallback callback) throws IOException {
-        String body  = getSource(task.getTarget());
+        String body  = loader.getSource(task.getTarget());
         DiggerResult result = filterResult(body,task.getFilter());
         callback.callback(result);
     }
@@ -32,11 +32,11 @@ public class CrawlerImpl implements Crawler {
         return filter.doFilter(source);
     }
 
-    public CrawlerSourceInterceptor getSourceInterceptor() {
-        return sourceInterceptor;
+    public HttpLoader getLoader() {
+        return loader;
     }
 
-    public void setSourceInterceptor(CrawlerSourceInterceptor sourceInterceptor) {
-        this.sourceInterceptor = sourceInterceptor;
+    public void setLoader(HttpLoader loader) {
+        this.loader = loader;
     }
 }

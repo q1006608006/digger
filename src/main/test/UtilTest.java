@@ -4,6 +4,7 @@ import org.junit.Test;
 import top.ivan.digger.util.CrawlerUtil;
 
 import java.io.*;
+import java.net.CookieManager;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -21,8 +22,7 @@ public class UtilTest {
 
 //        System.out.println(CrawlerUtil.getHtml("http://localhost:18080/view/hello",null,null,null));
         CrawlerUtil.HttpRequest request = CrawlerUtil.request("https://detail.tmall.com/item.htm?spm=a230r.1.14.12.76bf523kvHIwB&id=558385606674&cm_id=140105335569ed55e27b&abbucket=5&sku_properties=5919063:6536025;12304035:48072;122216431:27772");
-        request.header("Accept-Charset","utf-8")
-                .header("Content-Type","application/json;charset=utf-8");
+        request.header("Accept-Charset", "utf-8").header("Content-Type", "application/json;charset=utf-8");
         //        request.method("GET");
         CrawlerUtil.HttpResponse response = null;
         try {
@@ -48,7 +48,7 @@ public class UtilTest {
         ServerSocket serverSocket = new ServerSocket(80);
         Socket socket = serverSocket.accept();
 
-        PrintWriter pr = new PrintWriter(socket.getOutputStream(),true);
+        PrintWriter pr = new PrintWriter(socket.getOutputStream(), true);
 //        Thread.sleep(200);
         pr.println("HTTP/1.1 200 OK");
         pr.println("Connection: close");
@@ -67,7 +67,7 @@ public class UtilTest {
     @Test
     public void testClient() {
         try {
-            System.out.println(CrawlerUtil.request("http://localhost").timeout(1000).write("hello".getBytes()).header("1","1").response().getBody());
+            System.out.println(CrawlerUtil.request("http://localhost").timeout(1000).write("hello".getBytes()).header("1", "1").response().getBody());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -92,7 +92,7 @@ public class UtilTest {
 
         Socket socket = new Socket();
         socket.connect(new InetSocketAddress(url, 80));
-        PrintWriter pr = new PrintWriter(socket.getOutputStream(),true);
+        PrintWriter pr = new PrintWriter(socket.getOutputStream(), true);
         pr.println("GET /item.htm?id=557759288520 HTTP/1.1");
         pr.println("Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8");
         pr.println("Accept-encoding: gzip, deflate, br");
@@ -119,6 +119,14 @@ public class UtilTest {
         System.out.println(body);*/
         String str = Jsoup.connect("http://www.bilibili.com").get().outerHtml();
         System.out.println(str);
+        CookieManager manager = null;
 
     }
+
+    @Test
+    public void testSearch() throws IOException {
+        for (int i = 0; i < Integer.MAX_VALUE; i++)
+            System.out.println(CrawlerUtil.getResponse("https://suggest.taobao.com/sug?code=utf-8&q=小米", null, null, null).getBody());
+    }
+
 }

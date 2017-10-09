@@ -1,4 +1,4 @@
-package top.ivan.digger.crawler.interceptor;
+package top.ivan.digger.crawler;
 
 import java.io.IOException;
 
@@ -6,8 +6,8 @@ import java.io.IOException;
  * description
  *
  * @author Administrator
- * @date 2017/9/22
+ * @date 2017/10/9
  */
-public interface CrawlerSourceInterceptor {
+public interface HttpLoader {
     String getSource(String url) throws IOException;
 }

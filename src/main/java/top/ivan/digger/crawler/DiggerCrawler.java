@@ -8,7 +8,7 @@ package top.ivan.digger.crawler;
  */
 public abstract class DiggerCrawler implements Crawler {
     private CrawlerContext context;
-    public DiggerCrawler(CrawlerContext context){
+    protected DiggerCrawler(CrawlerContext context){
         this.context = context;
     }
     public CrawlerContext getContext() {

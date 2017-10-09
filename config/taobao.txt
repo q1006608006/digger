@@ -1,1 +1,14 @@
-����ҳ��ʽ��
+搜索输入推荐接口：
+url:https://suggest.taobao.com/sug?code=utf-8&q={搜索词}
+response-type:json
+example:{"req":"https://suggest.taobao.com/sug?code=utf-8&q=小米","target":{"result":[["小米6钢化膜","84459"],["小米6手机","928620"],["小米6耳机","19097"]]}}
+
+抓取评论接口:
+url:https://rate.tmall.com/list_detail_rate.htm?itemId={item_id}&sellerId={sellerId}&currentPage={pageCount}
+response-type:json
+example:{"req":"https://rate.tmall.com/list_detail_rate.htm?itemId=41464129793&sellerId=1652490016&currentPage=1","target":{"rateDetail":{"paginator":{"items":58269,"lastPage":99,"page":1},"rateCount":{"picNum":24097,"shop":0,"total":58269,"used":8565},"rateDanceInfo":{"currentMilles":1506759548646,"intervalMilles":184118920,"showChooseTopic":false,"storeType":4},"rateList":[{"aliMallSeller":false,"anony":false,"appendComment":"","attributes":"","attributesMap":"","aucNumId":"","auctionPicUrl":"","auctionPrice":"","auctionSku":"颜色分类:白色","auctionTitle":"","buyCount":0,"carServiceLocation":"","cmsSource":"天猫","displayRatePic":"","displayRateSum":0,"displayUserLink":"","displayUserNick":"胡***4","displayUserNumId":"","displayUserRateLink":"","dsr":0,"fromMall":true,"fromMemory":0,"gmtCreateTime":1506758784000,"goldUser":false,"id":325311830996,"pics":"","picsSmall":"","position":"","rateContent":"第一次在网上买这么大件的东西。说实话真的有点担心质量。不过还好中间出了点小插曲，幸好售后服务不错，后来还是愉快的解决了。至于好不好用，暂时还不能确定，因为是在老家装的。等过段时间回去用了再来评价！装的时候用了80元材料费！先给好评吧!","rateDate":"2017-09-30 16:06:24","reply":"","sellerId":1652490016,"serviceRateContent":"","structuredRateList":[],"tamllSweetLevel":0,"tmallSweetPic":"","tradeEndTime":1505552310000,"tradeId":"","useful":true,"userIdEncryption":"","userInfo":"","userVipLevel":0,"userVipPic":""}],"searchinfo":"","tags":""}}}
+
+搜索入口：
+url:https://s.taobao.com/search?q={item_name}
+response-type:html
+example:{"req":"https://s.taobao.com/search?q=python"}
