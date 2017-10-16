@@ -1,0 +1,33 @@
+{
+    "target":"url",
+    "type":"json",
+    "selector":[
+        {
+            "target":"",
+            "filter":{
+                "type":"regex",
+                "execute":{
+                    "type":"",
+                    "execute":""
+                },
+                "src":"{groupIds}"
+            }
+        },
+        {
+            "target":"css",
+            "filter":""
+        },
+        {
+            "target":"",
+            "filter":{
+                "type":"regex",
+                "execute":"{regex-value}",
+                "src":"{groupIds}"
+            }
+        }
+    ],
+    "category":{
+        "location":"taobao",
+        "id":""
+    }
+}
