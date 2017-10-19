@@ -1,16 +1,17 @@
 {
     "target":"url",
     "type":"json",
-    "selector":[
+    "filters":[
         {
             "target":"",
             "filter":{
                 "type":"regex",
-                "execute":{
+                "src":"{groupIds}",
+                "interceptor":{
                     "type":"",
-                    "execute":""
-                },
-                "src":"{groupIds}"
+                    "interceptor":null,
+                    "src":""
+                }
             }
         },
         {
@@ -21,7 +22,7 @@
             "target":"",
             "filter":{
                 "type":"regex",
-                "execute":"{regex-value}",
+                "interceptor":"{regex-value}",
                 "src":"{groupIds}"
             }
         }
