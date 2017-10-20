@@ -8,6 +8,9 @@ import java.util.Map;
  * @author Administrator
  * @date 2017/10/20
  */
-public interface Crawler {
-    Map<String,Object> parse(String url);
+public class Session {
+    private Map<String,Object> retValues;
+    private Map<String,Object> tempValues;
+
+
 }

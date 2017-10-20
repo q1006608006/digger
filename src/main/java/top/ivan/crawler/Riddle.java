@@ -8,6 +8,6 @@ import java.util.Map;
  * @author Administrator
  * @date 2017/10/19
  */
-public interface Filter {
+public interface Riddle {
     Map<String,Object> doFilter(IXHtml html);
 }

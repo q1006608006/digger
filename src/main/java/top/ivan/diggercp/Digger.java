@@ -111,7 +111,7 @@ public class Digger {
             task = taskController.getTask();
             crawler = takeCrawler();
             threadExecutor.execute(() -> {
-                try {
+/*                try {
                     crawler.peek(task, result -> resultQueue.add(result));
                     taskController.completeTask(task);
                 } catch (InterruptedException e) {
@@ -121,7 +121,7 @@ public class Digger {
                     taskController.undoTask(task);
                 } finally {
                     crawlerQueue.add(crawler);
-                }
+                }*/
             });
         }
     }

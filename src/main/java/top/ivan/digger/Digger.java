@@ -112,15 +112,15 @@ public class Digger {
             crawler = takeCrawler();
             threadExecutor.execute(() -> {
                 try {
-                    crawler.peek(task, result -> resultQueue.add(result));
-                    taskController.completeTask(task);
-                } catch (InterruptedException e) {
-                    logger.error("blocking queue error:{}", e.getMessage());
-                    taskController.undoTask(task);
+//                    crawler.peek(task, result -> resultQueue.add(result));
+//                    taskController.completeTask(task);
+//                } catch (InterruptedException e) {
+//                    logger.error("blocking queue error:{}", e.getMessage());
+//                    taskController.undoTask(task);
                 } catch (Exception e) {
-                    taskController.undoTask(task);
+//                    taskController.undoTask(task);
                 } finally {
-                    crawlerQueue.add(crawler);
+//                    crawlerQueue.add(crawler);
                 }
             });
         }

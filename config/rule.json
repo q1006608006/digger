@@ -1,16 +1,32 @@
 {
     "target":"url",
     "type":"json",
-    "filters":[
-        {
+    "filters": {
+        "id": {
+            "type":"",
+            "target":"",
+            "order":"",
+            "interceptor":{
+                "type":"",
+                "target":"",
+                "order":""
+            }
+        },
+        "value":{
+            "type":"",
+            "target":"",
+            "order":"",
+            "interceptor": null
+        }
+        /*        {
             "target":"",
             "filter":{
                 "type":"regex",
-                "src":"{groupIds}",
+                "target":"{groupIds}",
                 "interceptor":{
                     "type":"",
                     "interceptor":null,
-                    "src":""
+                    "target":""
                 }
             }
         },
@@ -23,10 +39,10 @@
             "filter":{
                 "type":"regex",
                 "interceptor":"{regex-value}",
-                "src":"{groupIds}"
+                "target":"{groupIds}"
             }
-        }
-    ],
+        }*/
+    },
     "category":{
         "location":"taobao",
         "id":""
