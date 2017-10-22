@@ -60,6 +60,8 @@
           <element id="library" level="project" name="Maven: org.eclipse.jetty.websocket:websocket-api:9.4.5.v20170502" />
           <element id="library" level="project" name="Maven: org.jsoup:jsoup:1.8.3" />
           <element id="library" level="project" name="Maven: com.google.code.gson:gson:2.8.1" />
+          <element id="library" level="project" name="Maven: net.sourceforge.htmlcleaner:htmlcleaner:2.8" />
+          <element id="library" level="project" name="Maven: org.jdom:jdom2:2.0.5" />
         </element>
       </element>
       <element id="directory" name="META-INF">

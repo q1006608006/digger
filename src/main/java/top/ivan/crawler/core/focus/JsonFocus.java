@@ -1,9 +1,7 @@
 package top.ivan.crawler.core.focus;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
+import com.alibaba.fastjson.JSONArray;
+import com.google.gson.*;
 import top.ivan.crawler.Focus;
 import top.ivan.crawler.annotation.Parameter;
 
@@ -22,43 +20,55 @@ import java.util.regex.Pattern;
  */
 
 public class JsonFocus implements Focus {
-    private static Gson GSON = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
+
     private static final String INDEX = "\\[(\\d*?)\\]";
     private static Pattern pattern = Pattern.compile(INDEX);
 
     @Override
-    public String peek(String src, String target, String key, Map<String, Object> tempMap) {
-        return takeObject(GSON.fromJson(src,JsonObject.class),target).toString();
+    public String peek(String src, String target, String key) {
+        return takeObject(GSON.fromJson(src,JsonElement.class),target).toString();
     }
 
-    private Object takeObject(JsonObject json,String path) {
+    private Object takeObject(JsonElement json,String path) {
         String[] parts = path.split("\\.");
-        JsonObject temp = json;
-        for(String key : parts) {
-            if(key.contains("[")) {
-                temp = getArrayValue(temp,key);
-            }
-            temp = temp.getAsJsonObject(key);
+        JsonElement temp = json;
+        String key;
+        for(int i = 0;i < parts.length; i++) {
+            key = parts[i];
+            temp = anyKey(temp,key);
         }
         return temp;
     }
 
-    public static JsonObject getArrayValue(JsonObject json,String curkey) {
+    private JsonElement anyKey(JsonElement json,String key) {
+        if(key.contains("[")) {
+            return getArrayValue(json,key);
+        }
+        return json.getAsJsonObject().get(key);
+    }
+
+    private static JsonElement getArrayValue(JsonElement json, String curkey) {
         Matcher matcher = pattern.matcher(curkey);
-        List<Integer> indexs = new LinkedList<>();
+        String key = curkey.replaceAll("\\[\\S*","");
+        JsonArray array;
+        if("".equals(key)) {
+            array = json.getAsJsonArray();
+        } else {
+            array = json.getAsJsonObject().getAsJsonArray(key);
+        }
         while (matcher.find()) {
-            indexs.add(Integer.valueOf(matcher.group(1)));
+            json = array.get(Integer.valueOf(matcher.group(1)));
+            if(json instanceof JsonArray) {
+                array = (JsonArray) json;
+            }
         }
-        JsonArray array = json.getAsJsonArray(curkey.replaceAll("\\[\\S*",""));
-        for(int i=0;i < indexs.size() - 1;i++) {
-            array = array.get(i).getAsJsonArray();
-        }
-        return array.get(indexs.get(indexs.size())).getAsJsonObject();
+        return json;
     }
 
     public static void main(String[] args) {
-        String json = "{id:1,value:2,fuck:{id:1,fuck:[1,[3],3,4]}}";
-
-        System.out.println(new JsonFocus().peek(json,"fuck.fuck[2]",null,null));
+        String json = "{id:1,value:2,fuck:{id:1,fuck:[1,{id:7}]}}";
+        String json2 = "[[1,2],[2],3]";
+//        System.out.println(GSON.fromJson(json,JsonObject.class));
+        System.out.println(new JsonFocus().peek(json2,"[1]",null));
     }
 }

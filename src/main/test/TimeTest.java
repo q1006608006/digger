@@ -1,14 +1,12 @@
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.junit.Test;
-import top.badtheway.sa.core.container.FileSystemBeanContext;
 import top.ivan.digger.util.CrawlerUtil;
 
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.logging.SimpleFormatter;
 import java.util.regex.Pattern;
 
 /**
@@ -164,11 +162,11 @@ public class TimeTest {
             for (int i = offset; i < src.length; i++) {
                 if (null != current.getNode(src[i])) {
                     current = current.getNode(src[i]);
-                } else{
+                } else {
                     break;
                 }
             }
-            if(current.equals(timeRoot)) {
+            if (current.equals(timeRoot)) {
                 return null;
             }
             return current;
@@ -217,7 +215,7 @@ public class TimeTest {
         String s = null + "a";
 
         Locale locale = Locale.ENGLISH;
-        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy hh:mm a",locale);
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy hh:mm a", locale);
 
         sdf.setTimeZone(TimeZone.getTimeZone("GMT+0300"));
 
@@ -241,10 +239,8 @@ public class TimeTest {
 
     @Test
     public void testSA() throws Exception {
-        FileSystemBeanContext context = new FileSystemBeanContext("/sa-config.xml");
-        System.out.println(context.getBean("crawler"));
-    }
 
+    }
 
 
 }
