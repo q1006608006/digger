@@ -16,19 +16,4 @@ import java.util.regex.Pattern;
  */
 public interface Focus {
     String peek(String src, String target, String key) throws Exception;
-
-    String REGEX = "\\{\\$([\\s\\S]*?)\\}";
-    Pattern pattern = Pattern.compile(REGEX);
-    Gson GSON = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
-    static String peeKey(String key, Map<String, Object> tempMap) {
-        Matcher matcher = pattern.matcher(key);
-        String repart,rekey,temp;
-        while (matcher.find()) {
-            repart = matcher.group(0);
-            rekey = matcher.group(1);
-            temp = tempMap.get(rekey) + "";
-            key = key.replace(repart,temp);
-        }
-        return key;
-    }
 }

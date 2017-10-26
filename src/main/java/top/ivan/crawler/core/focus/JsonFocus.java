@@ -1,14 +1,12 @@
 package top.ivan.crawler.core.focus;
 
-import com.alibaba.fastjson.JSONArray;
-import com.google.gson.*;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import top.ivan.crawler.Focus;
-import top.ivan.crawler.annotation.Parameter;
 
-import java.lang.reflect.Method;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.lang.reflect.Type;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -18,15 +16,18 @@ import java.util.regex.Pattern;
  * @author Administrator
  * @date 2017/10/20
  */
-
 public class JsonFocus implements Focus {
 
-    private static final String INDEX = "\\[(\\d*?)\\]";
-    private static Pattern pattern = Pattern.compile(INDEX);
-
+    /**
+     * json type data select
+     * @param src
+     * @param target data path
+     * @param key unused
+     * @return
+     */
     @Override
     public String peek(String src, String target, String key) {
-        return takeObject(GSON.fromJson(src,JsonElement.class),target).toString();
+        return GSON.toJson(takeObject(fromJson(src,JsonElement.class),target));
     }
 
     private Object takeObject(JsonElement json,String path) {
@@ -65,10 +66,17 @@ public class JsonFocus implements Focus {
         return json;
     }
 
-    public static void main(String[] args) {
-        String json = "{id:1,value:2,fuck:{id:1,fuck:[1,{id:7}]}}";
-        String json2 = "[[1,2],[2],3]";
-//        System.out.println(GSON.fromJson(json,JsonObject.class));
-        System.out.println(new JsonFocus().peek(json2,"[1]",null));
+    private static final Pattern pattern = Pattern.compile("\\[(\\d*?)\\]");
+    private static final Gson GSON = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
+
+    public static <T> T fromJson(String json, Type type) {
+        return GSON.fromJson(json,type);
+    }
+    public static String toJson(Object obj) {
+        return GSON.toJson(obj);
+    }
+
+    public static <T> T fromJson(String json,Class<? extends T> clazz) {
+        return GSON.fromJson(json,clazz);
     }
 }

@@ -15,23 +15,31 @@ import java.util.regex.Pattern;
  */
 public class RegexFocus implements Focus {
 
+    /**
+     * replace with regex
+     * @param src
+     * @param target replace source
+     * @param key replacement
+     * @return
+     */
+    @Override
     public String peek(String src, String target, String key) {
         return src.replaceAll(target, key);
     }
 
 
-    public static void main(String[] args) {
-        String value = "{$1}{$2}$1{$3}{$4}";
-        String src = "sdfaloowek(www.baidu.com)sdfsd";
-//        String target = "[\\s\\S]*(www\\.[\\S]*)\\)[\\s\\S]*";
-        Map map = new HashMap();
-        String target = "s";
-        String key = "";
-        map.put("1","a");
-        map.put("2","b");
-        map.put("3","c");
-        RegexFocus focus = new RegexFocus();
-        key = Focus.peeKey(key,map);
-        System.out.println(focus.peek(src,target,key));
+    private static final Pattern $_pattern = Pattern.compile("\\{\\$([\\s\\S]*?)\\}");
+
+    public static String peeKey(String key, Map<String, Object> tempMap) {
+        Matcher matcher = $_pattern.matcher(key);
+        String repart,rekey,temp;
+        while (matcher.find()) {
+            repart = matcher.group(0);
+            rekey = matcher.group(1);
+            temp = tempMap.get(rekey) + "";
+            key = key.replace(repart,temp);
+        }
+        return key;
     }
+
 }

@@ -1,39 +1,55 @@
 package top.ivan.crawler.core.focus;
 
+import com.google.gson.reflect.TypeToken;
 import org.htmlcleaner.HtmlCleaner;
 import org.htmlcleaner.TagNode;
 import org.htmlcleaner.XPatherException;
 import top.ivan.crawler.Focus;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by IVAN on 2017/10/21.
  */
 public class XpathFocus implements Focus {
+    /**
+     *
+     * @param src
+     * @param target xpath target
+     * @param key
+     * @return list of attribute
+     * @throws XPatherException
+     */
     @Override
     public String peek(String src, String target, String key) throws XPatherException {
         HtmlCleaner cleaner = new HtmlCleaner();
         TagNode tagNode = cleaner.clean(src);
-        List list = new LinkedList();
-        TagNode node;
-        for(Object obj : tagNode.evaluateXPath(target)) {
-            node = (TagNode) obj;
-            if(null == key || "text".equalsIgnoreCase(key)) {
-                list.add(node.getText());
-                continue;
-            }
-            list.add(node.getAttributeByName(key));
+        Object[] objs = tagNode.evaluateXPath(target);
+        return anyKey(objs,key);
+    }
+
+    public String anyKey(Object[] nodes,String key) {
+        if(null == key || "".equals(key) || !key.startsWith("list:")) {
+            StringBuilder sb = new StringBuilder();
+            ListFocus.foreach(nodes, o -> sb.append(anyNode((TagNode) o,key)).append("\n"));
+            sb.deleteCharAt(sb.lastIndexOf("\n"));
+            return sb.toString();
         }
-        return GSON.toJson(list);
+        String listKey = key.replace("list:","");
+        List list = new ArrayList();
+        ListFocus.foreach(nodes,o -> list.add(anyNode((TagNode) o,listKey)));
+        return JsonFocus.toJson(list);
     }
 
-
-    public static void main(String[] args) throws XPatherException {
-        String html = "<html><head></head><body><div class=\"div\" id=\"123\">fuck</div><div>1</div></body></html>";
-
-        System.out.println(new XpathFocus().peek(html,"//div","id"));
+    public String anyNode(TagNode node,String key) {
+        String ret;
+        if(null == key || "".equals(key) || "text()".equals(key)) {
+            ret = node.getText().toString();
+        } else {
+            ret = node.getAttributeByName(key);
+        }
+        return ListFocus.nullValue(ret);
     }
+
 }
