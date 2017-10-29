@@ -22,4 +22,8 @@ public class Examiner {
 //        return focus.peek(src);
         return null;
     }
+
+    public static String exceptionMessage(Class<? extends Focus> clazz,Throwable cause) {
+        return String.valueOf(-1);
+    }
 }

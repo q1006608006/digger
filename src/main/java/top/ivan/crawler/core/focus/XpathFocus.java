@@ -1,6 +1,5 @@
 package top.ivan.crawler.core.focus;
 
-import com.google.gson.reflect.TypeToken;
 import org.htmlcleaner.HtmlCleaner;
 import org.htmlcleaner.TagNode;
 import org.htmlcleaner.XPatherException;
@@ -14,7 +13,6 @@ import java.util.List;
  */
 public class XpathFocus implements Focus {
     /**
-     *
      * @param src
      * @param target xpath target
      * @param key
@@ -26,30 +24,30 @@ public class XpathFocus implements Focus {
         HtmlCleaner cleaner = new HtmlCleaner();
         TagNode tagNode = cleaner.clean(src);
         Object[] objs = tagNode.evaluateXPath(target);
-        return anyKey(objs,key);
+        return anyKey(objs, key);
     }
 
-    public String anyKey(Object[] nodes,String key) {
-        if(null == key || "".equals(key) || !key.startsWith("list:")) {
+    public String anyKey(Object[] nodes, String key) {
+        if (null == key || "".equals(key) || !key.startsWith("list:")) {
             StringBuilder sb = new StringBuilder();
-            ListFocus.foreach(nodes, o -> sb.append(anyNode((TagNode) o,key)).append("\n"));
+            ListExportFocus.foreach(nodes, o -> sb.append(anyNode((TagNode) o, key)).append("\n"));
             sb.deleteCharAt(sb.lastIndexOf("\n"));
             return sb.toString();
         }
-        String listKey = key.replace("list:","");
+        String listKey = key.replace("list:", "");
         List list = new ArrayList();
-        ListFocus.foreach(nodes,o -> list.add(anyNode((TagNode) o,listKey)));
+        ListExportFocus.foreach(nodes, o -> list.add(anyNode((TagNode) o, listKey)));
         return JsonFocus.toJson(list);
     }
 
-    public String anyNode(TagNode node,String key) {
+    public String anyNode(TagNode node, String key) {
         String ret;
-        if(null == key || "".equals(key) || "text()".equals(key)) {
+        if (null == key || "".equals(key) || "text()".equals(key)) {
             ret = node.getText().toString();
         } else {
             ret = node.getAttributeByName(key);
         }
-        return ListFocus.nullValue(ret);
+        return TestExportFocus.nullValue(ret);
     }
 
 }

@@ -7,6 +7,7 @@ import com.google.gson.JsonElement;
 import top.ivan.crawler.Focus;
 
 import java.lang.reflect.Type;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -79,4 +80,5 @@ public class JsonFocus implements Focus {
     public static <T> T fromJson(String json,Class<? extends T> clazz) {
         return GSON.fromJson(json,clazz);
     }
+
 }

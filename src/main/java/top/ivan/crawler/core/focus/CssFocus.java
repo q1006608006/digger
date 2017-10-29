@@ -18,40 +18,41 @@ public class CssFocus implements Focus {
 
     /**
      * css selector
+     *
      * @param src
      * @param target jsoup - selector
-     * @param key attribute or list:attribute
+     * @param key    attribute or list:attribute
      * @return
      */
     @Override
     public String peek(String src, String target, String key) {
         Elements elements = Jsoup.parse(src).select(target);
-        return anyKey(elements,key);
+        return anyKey(elements, key);
     }
 
-    private String anyKey(Elements els,String key) {
-        if(null == key || "".equals(key) || !key.startsWith("list:")) {
+    private String anyKey(Elements els, String key) {
+        if (null == key || "".equals(key) || !key.startsWith("list:")) {
             StringBuilder sb = new StringBuilder();
-            ListFocus.foreach(els.toArray(), o -> sb.append(anyElement((Element) o,key)).append("\n"));
+            ListExportFocus.foreach(els.toArray(), o -> sb.append(anyElement((Element) o, key)).append("\n"));
             sb.deleteCharAt(sb.lastIndexOf("\n"));
             return sb.toString();
         }
-        String listKey = key.replace("list:","");
+        String listKey = key.replace("list:", "");
         List list = new ArrayList();
-        ListFocus.foreach(els.toArray(),o -> list.add(anyElement((Element) o,listKey)));
+        ListExportFocus.foreach(els.toArray(), o -> list.add(anyElement((Element) o, listKey)));
         return JsonFocus.toJson(list);
     }
 
-    private String anyElement(Element element,String key) {
+    private String anyElement(Element element, String key) {
         String ret;
-        if(null == key || "".equals(key)) {
+        if (null == key || "".equals(key)) {
             ret = element.outerHtml();
-        } else if("text()".equals(key)) {
+        } else if ("text()".equals(key)) {
             ret = element.text();
         } else {
             ret = element.attr(key);
         }
-        return ListFocus.nullValue(ret);
+        return TestExportFocus.nullValue(ret);
     }
 
 }
