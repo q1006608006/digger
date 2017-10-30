@@ -7,9 +7,9 @@
             "target":"",
             "order":"",
             "interceptor":{
-                "type":"",
-                "target":"",
-                "order":""
+                "type":"test",
+                "target":"regex[\\s]",
+                "order":"#abc#"
             }
         },
         "value":{

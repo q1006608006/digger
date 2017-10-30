@@ -33,13 +33,13 @@ public class CssFocus implements Focus {
     private String anyKey(Elements els, String key) {
         if (null == key || "".equals(key) || !key.startsWith("list:")) {
             StringBuilder sb = new StringBuilder();
-            ListExportFocus.foreach(els.toArray(), o -> sb.append(anyElement((Element) o, key)).append("\n"));
+            ListFocus.foreach(els.toArray(), o -> sb.append(anyElement((Element) o, key)).append("\n"));
             sb.deleteCharAt(sb.lastIndexOf("\n"));
             return sb.toString();
         }
         String listKey = key.replace("list:", "");
         List list = new ArrayList();
-        ListExportFocus.foreach(els.toArray(), o -> list.add(anyElement((Element) o, listKey)));
+        ListFocus.foreach(els.toArray(), o -> list.add(anyElement((Element) o, listKey)));
         return JsonFocus.toJson(list);
     }
 
@@ -52,7 +52,7 @@ public class CssFocus implements Focus {
         } else {
             ret = element.attr(key);
         }
-        return TestExportFocus.nullValue(ret);
+        return TestFocus.nullValue(ret);
     }
 
 }

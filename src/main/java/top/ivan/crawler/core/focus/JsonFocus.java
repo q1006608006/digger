@@ -28,10 +28,17 @@ public class JsonFocus implements Focus {
      */
     @Override
     public String peek(String src, String target, String key) {
-        return GSON.toJson(takeObject(fromJson(src,JsonElement.class),target));
+        if(null == TestFocus.nullValue(target)) {
+            target = key;
+        }
+        return takeJsonValue(src,target);
     }
 
-    private Object takeObject(JsonElement json,String path) {
+    public static String takeJsonValue(String src,String path) {
+        return GSON.toJson(takeObject(fromJson(src,JsonElement.class),path));
+    }
+
+    private static Object takeObject(JsonElement json,String path) {
         String[] parts = path.split("\\.");
         JsonElement temp = json;
         String key;
@@ -42,7 +49,7 @@ public class JsonFocus implements Focus {
         return temp;
     }
 
-    private JsonElement anyKey(JsonElement json,String key) {
+    private static JsonElement anyKey(JsonElement json,String key) {
         if(key.contains("[")) {
             return getArrayValue(json,key);
         }

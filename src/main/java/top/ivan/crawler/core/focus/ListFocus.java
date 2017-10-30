@@ -1,9 +1,6 @@
 package top.ivan.crawler.core.focus;
 
-import top.ivan.crawler.Examiner;
-import top.ivan.crawler.Focus;
-import top.ivan.crawler.FocusManager;
-import top.ivan.crawler.ExportFocusHandle;
+import top.ivan.crawler.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +11,7 @@ import java.util.List;
  * @author Administrator
  * @date 2017/10/23
  */
-public class ListExportFocus implements Focus, ExportFocusHandle {
+public class ListFocus implements Focus, ExportFocusHandle {
     private FocusManager manager;
 
     @Override
@@ -33,7 +30,7 @@ public class ListExportFocus implements Focus, ExportFocusHandle {
         List result = new ArrayList();
         foreach(src, o -> {
             try {
-                result.add(mod.peek(TestExportFocus.notNullValue(o), target, key));
+                result.add(mod.peek(TestFocus.notNullValue(o), target, key));
             } catch (Exception e) {
                 result.add(Examiner.exceptionMessage(this.getClass(),e));
             }
@@ -54,22 +51,22 @@ public class ListExportFocus implements Focus, ExportFocusHandle {
         foreach(src, o -> {
             o = getTestNullValue(o, finalOpenNullValue);
             switch (finalType) {
-                case "$"://null -> null
+                case "$"://"" -> null
                     result.add(o);
                     break;
                 case "#"://null -> ""
-                    result.add(TestExportFocus.notNullValue(o));
+                    result.add(TestFocus.notNullValue(o));
                     break;
-                case "+"://null -> "null"
+                case "+"://null -> "null" >> ""->"null"
                     result.add(null == o ? "null" : o);
                     break;
-                case "-"://null -> skip
+                case "-"://null -> skip  >> "" -> skip
                     if(null != o) {
                         result.add(o);
                     }
                     break;
                 default:
-                    result.add(-1);
+                    result.add(Examiner.exceptionMessage(ListFocus.class,new UnSupportFocusException("not suitable order found")));
                     break;
             }
         });
@@ -78,7 +75,7 @@ public class ListExportFocus implements Focus, ExportFocusHandle {
 
     private String getTestNullValue(Object obj, boolean openNullValue) {
         if(openNullValue) {
-            return TestExportFocus.nullValue(obj);
+            return TestFocus.nullValue(obj);
         }
         return null == obj ? null : obj.toString();
     }
@@ -101,14 +98,6 @@ public class ListExportFocus implements Focus, ExportFocusHandle {
 
     interface KeyInvoker {
         void invoke(Object obj);
-    }
-
-
-    public static void main(String[] args) throws Exception {
-        String listStr = "['',1,2,a]";
-//        System.out.println(listStr.replaceAll("a",""));
-//        System.out.println(listStr.toString());
-        System.out.println(new ListExportFocus().peek(listStr,"test[regex[a=bsx]]]","A=B()"));
     }
 
 }

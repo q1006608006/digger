@@ -30,13 +30,13 @@ public class XpathFocus implements Focus {
     public String anyKey(Object[] nodes, String key) {
         if (null == key || "".equals(key) || !key.startsWith("list:")) {
             StringBuilder sb = new StringBuilder();
-            ListExportFocus.foreach(nodes, o -> sb.append(anyNode((TagNode) o, key)).append("\n"));
+            ListFocus.foreach(nodes, o -> sb.append(anyNode((TagNode) o, key)).append("\n"));
             sb.deleteCharAt(sb.lastIndexOf("\n"));
             return sb.toString();
         }
         String listKey = key.replace("list:", "");
         List list = new ArrayList();
-        ListExportFocus.foreach(nodes, o -> list.add(anyNode((TagNode) o, listKey)));
+        ListFocus.foreach(nodes, o -> list.add(anyNode((TagNode) o, listKey)));
         return JsonFocus.toJson(list);
     }
 
@@ -47,7 +47,7 @@ public class XpathFocus implements Focus {
         } else {
             ret = node.getAttributeByName(key);
         }
-        return TestExportFocus.nullValue(ret);
+        return TestFocus.nullValue(ret);
     }
 
 }

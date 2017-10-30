@@ -15,11 +15,16 @@ public interface ExportFocusHandle {
         return target.matches(EXPORT_MODULE);
     }
 
-    static Focus getExportFocus(String target,FocusManager manager) {
+    static Focus getExportFocus(String target,FocusManager manager) throws UnSupportFocusException {
         if(null != manager) {
-            return manager.getFocus(target.replaceAll(EXPORT_MODULE,"$1"));
+            String focusName = target.replaceAll(EXPORT_MODULE,"$1");
+            Focus focus = manager.getFocus(focusName);
+            if(null == focus) {
+                throw new UnSupportFocusException(String.format("not focus with name:\"%s\" was found",focusName));
+            }
+            return focus;
         }
-        return null;
+        throw new UnSupportFocusException("not registered manager");
     }
 
     static String getExportTarget(String srcTarget) {
