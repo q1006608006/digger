@@ -35,7 +35,12 @@ public class JsonFocus implements Focus {
     }
 
     public static String takeJsonValue(String src,String path) {
-        return GSON.toJson(takeObject(fromJson(src,JsonElement.class),path));
+        return toJson(takeObject(fromJson(src,JsonElement.class),path));
+    }
+
+    public static <T> T takeFormatObject(String src,String path,Type type) {
+        JsonElement o = (JsonElement) takeObject(fromJson(src,JsonElement.class),path);
+        return GSON.fromJson(o,type);
     }
 
     private static Object takeObject(JsonElement json,String path) {

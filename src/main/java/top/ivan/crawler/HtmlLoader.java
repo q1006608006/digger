@@ -1,5 +1,9 @@
 package top.ivan.crawler;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.util.Map;
+
 /**
  * description
  *
@@ -7,5 +11,7 @@ package top.ivan.crawler;
  * @date 2017/10/19
  */
 public interface HtmlLoader {
-    IXHtml loaderHtml(String src);
+    IXHtml loaderHtml(String url) throws IOException;
+    IXHtml loaderHtml(String url, Map<String,String> heads) throws IOException;
+    IXHtml loaderHtml(String url, Map<String,String> heads,Map<String,String> cookies) throws IOException;
 }

@@ -5,6 +5,7 @@ import top.ivan.crawler.ExportFocusHandle;
 import top.ivan.crawler.Focus;
 import top.ivan.crawler.FocusManager;
 import top.ivan.crawler.UnSupportFocusException;
+import top.ivan.crawler.utils.Calculator;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -25,8 +26,9 @@ public class TestFocus implements Focus,ExportFocusHandle {
         KeyOrder keyOrder = KeyOrder.getKeyOrder(key);
         String srcType = keyOrder.getOriginal();
         if(keyOrder.pass(peekKey(src,srcType),keyOrder.getOrder())) {
-            Focus focus = ExportFocusHandle.getExportFocus(target,manager);
+
             String exportTarget = ExportFocusHandle.getExportTarget(target);
+            Focus focus = ExportFocusHandle.getExportFocus(target,manager);
             return focus.peek(src,exportTarget,keyOrder.getRealKey());
         }
         return src;
@@ -53,18 +55,33 @@ public class TestFocus implements Focus,ExportFocusHandle {
     }
 
     private String peekKey(String src,String srcType) throws Exception {
-        if(srcType.matches("^#[\\s\\S]*#$")) {
-            return JsonFocus.takeJsonValue(src,srcType.replace("#",""));
+        if(srcType.matches("^@[\\s\\S]*@$")) {
+            return JsonFocus.takeJsonValue(src,srcType.replace("@",""));
+        } else if(srcType.matches("^#[\\s\\S]*#$")) {
+            return srcType.replace("#","");
         } else if(srcType.matches("^\\$[\\s\\S]*\\$$")){
-            return srcType.replace("$","");
-        } else {
+            return src.replaceAll(srcType.substring(1,srcType.length() - 1),"$1");
+        } else if("$".equals(srcType)){
             return src;
+        } else {
+            return srcType;
         }
     }
 
     private static class KeyOrder {
-        static final String REGEX = "^(#\\S+?#|\\$\\S+?\\$|\\$|)(\\S*?)\\[([\\s\\S]*)\\]$";
+        static final String REGEX = "^(@[\\s\\S]+?@|#[\\s\\S]+?#|\\$[\\s\\S]+?\\$|\\$)([\\s\\S]*?)>>\\[([\\s\\S]*)\\]$";
         private static Lexicon<OrderInvoker> lexicon = new Lexicon<>(null,null);
+
+        {
+            lexicon.put(">",(a,b) -> a.compareTo(b) > 0);
+            lexicon.put("<",(a,b) -> a.compareTo(b) < 0);
+            lexicon.put("=",(a,b) -> a.compareTo(b) == 0);
+            lexicon.put("match_",(a,b) -> a.matches(b));
+            lexicon.put("equals_",(a,b) -> a.equals(b));
+            lexicon.put("(math)>",(a,b) -> Calculator.conversion(a) > Calculator.conversion(b));
+            lexicon.put("(math)<",(a,b) -> Calculator.conversion(a) < Calculator.conversion(b));
+            lexicon.put("(math)=",(a,b) -> Calculator.conversion(a) == Calculator.conversion(b));
+        }
 
         private String original;
         private String order;
@@ -100,13 +117,17 @@ public class TestFocus implements Focus,ExportFocusHandle {
         }
 
         boolean pass(String original,String order) throws UnSupportFocusException {
+            boolean upset = order.startsWith("!");
+            if(upset) {
+                order = order.substring(1);
+            }
             Lexicon<OrderInvoker> node = lexicon.get(order);
             if(null == node) {
                 throw new UnSupportFocusException(String.format("no suitable test order with:\"%s\"" ,order));
             }
             OrderInvoker invoker = node.getValue();
-            String key = order.replaceFirst(order,node.getPath());
-            return invoker.test(original,key);
+            String key = order.replace(node.getPath(),"");
+            return upset != invoker.test(original,key);
         }
 
         static void registerOrder(String order,OrderInvoker invoker) {
@@ -167,17 +188,13 @@ public class TestFocus implements Focus,ExportFocusHandle {
 
         }
 
-
     }
+
 
     public static void main(String[] args) throws Exception {
-//        System.out.println("#1#=1[a[][]".replaceAll(KeyOrder.REGEX,"$3"));
-//        KeyOrder.Lexicon<String> lexicon = new KeyOrder.Lexicon<>(null,null);
-//        lexicon.put("abc","heiehie");
-//        lexicon.put("bbc","cnm");
-//        System.out.println(lexicon.get("abcasfsdf").getPath());
-//        System.out.println(lexicon.get("bbc").getValue());
+        String str = "abc";
         Focus focus = new TestFocus();
-        focus.peek("[1,2,3]","regex[1]","#[2]#=b[123]");
+        String value = focus.peek(str,"regex[1]","$!=abc>>[$1]");
     }
+
 }
