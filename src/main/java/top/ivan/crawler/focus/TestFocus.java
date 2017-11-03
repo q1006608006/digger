@@ -1,6 +1,5 @@
-package top.ivan.crawler.core.focus;
+package top.ivan.crawler.focus;
 
-import com.google.gson.JsonElement;
 import top.ivan.crawler.ExportFocusHandle;
 import top.ivan.crawler.Focus;
 import top.ivan.crawler.FocusManager;
@@ -76,8 +75,9 @@ public class TestFocus implements Focus,ExportFocusHandle {
             lexicon.put(">",(a,b) -> a.compareTo(b) > 0);
             lexicon.put("<",(a,b) -> a.compareTo(b) < 0);
             lexicon.put("=",(a,b) -> a.compareTo(b) == 0);
-            lexicon.put("match_",(a,b) -> a.matches(b));
-            lexicon.put("equals_",(a,b) -> a.equals(b));
+            lexicon.put("matches_", String::matches);
+            lexicon.put("contains_", String::contains);
+            lexicon.put("equals_", String::equalsIgnoreCase);
             lexicon.put("(math)>",(a,b) -> Calculator.conversion(a) > Calculator.conversion(b));
             lexicon.put("(math)<",(a,b) -> Calculator.conversion(a) < Calculator.conversion(b));
             lexicon.put("(math)=",(a,b) -> Calculator.conversion(a) == Calculator.conversion(b));
@@ -188,13 +188,6 @@ public class TestFocus implements Focus,ExportFocusHandle {
 
         }
 
-    }
-
-
-    public static void main(String[] args) throws Exception {
-        String str = "abc";
-        Focus focus = new TestFocus();
-        String value = focus.peek(str,"regex[1]","$!=abc>>[$1]");
     }
 
 }

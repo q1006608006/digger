@@ -1,8 +1,7 @@
-package top.ivan.crawler.core.focus;
+package top.ivan.crawler.focus;
 
 import top.ivan.crawler.Focus;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

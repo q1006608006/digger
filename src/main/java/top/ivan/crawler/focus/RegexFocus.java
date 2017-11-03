@@ -1,8 +1,7 @@
-package top.ivan.crawler.core.focus;
+package top.ivan.crawler.focus;
 
 import top.ivan.crawler.Focus;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -30,7 +29,10 @@ public class RegexFocus implements Focus {
 
     private static final Pattern $_pattern = Pattern.compile("\\{\\$([\\s\\S]*?)\\}");
 
-    public static String peeKey(String key, Map<String, Object> tempMap) {
+    public static String peeKey(String key, Map<String, String> tempMap) {
+        if(key == null) {
+            return null;
+        }
         Matcher matcher = $_pattern.matcher(key);
         String repart,rekey,temp;
         while (matcher.find()) {

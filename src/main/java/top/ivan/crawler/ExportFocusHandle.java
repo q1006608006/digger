@@ -1,5 +1,9 @@
 package top.ivan.crawler;
 
+import top.ivan.crawler.Focus;
+import top.ivan.crawler.FocusManager;
+import top.ivan.crawler.UnSupportFocusException;
+
 /**
  * description
  *
@@ -15,7 +19,7 @@ public interface ExportFocusHandle {
         return target.matches(EXPORT_MODULE);
     }
 
-    static Focus getExportFocus(String target,FocusManager manager) throws UnSupportFocusException {
+    static Focus getExportFocus(String target, FocusManager manager) throws UnSupportFocusException {
         if(null == manager) {
             throw new UnSupportFocusException("not registered manager");
         }

@@ -1,4 +1,4 @@
-package top.ivan.crawler.core.focus;
+package top.ivan.crawler.focus;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -7,7 +7,6 @@ import com.google.gson.JsonElement;
 import top.ivan.crawler.Focus;
 
 import java.lang.reflect.Type;
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -80,7 +79,7 @@ public class JsonFocus implements Focus {
     }
 
     private static final Pattern pattern = Pattern.compile("\\[(\\d*?)\\]");
-    private static final Gson GSON = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
+    private static final Gson GSON = new GsonBuilder().create();
 
     public static <T> T fromJson(String json, Type type) {
         return GSON.fromJson(json,type);

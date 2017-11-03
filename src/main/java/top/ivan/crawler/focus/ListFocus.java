@@ -1,6 +1,7 @@
-package top.ivan.crawler.core.focus;
+package top.ivan.crawler.focus;
 
 import top.ivan.crawler.*;
+import top.ivan.crawler.ExportFocusHandle;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,20 +27,16 @@ public class ListFocus implements Focus, ExportFocusHandle {
         }
     }
 
-    private List parseExport(List src, Focus mod, String target, String key) {
+    private List parseExport(List src, Focus mod, String target, String key) throws Exception {
         List result = new ArrayList();
         foreach(src, o -> {
-            try {
-                result.add(mod.peek(TestFocus.notNullValue(o), target, key));
-            } catch (Exception e) {
-                result.add(Examiner.exceptionMessage(this.getClass(),e));
-            }
+            result.add(mod.peek(TestFocus.notNullValue(o), target, key));
         });
         return result;
     }
 
 
-    private List parseNull(List src, String type) {
+    private List parseNull(List src, String type) throws Exception {
         List result = new ArrayList();
         boolean openNullValue = false;
         if (type.startsWith("@")) {
@@ -66,8 +63,7 @@ public class ListFocus implements Focus, ExportFocusHandle {
                     }
                     break;
                 default:
-                    result.add(Examiner.exceptionMessage(ListFocus.class,new UnSupportFocusException("not suitable order found")));
-                    break;
+                    throw new UnSupportFocusException("not suitable order found");
             }
         });
         return result;
@@ -81,13 +77,13 @@ public class ListFocus implements Focus, ExportFocusHandle {
     }
 
 
-    public static void foreach(Object[] objs, KeyInvoker invoker) {
+    public static void foreach(Object[] objs, KeyInvoker invoker) throws Exception {
         for (Object o : objs) {
             invoker.invoke(o);
         }
     }
 
-    public static void foreach(List list, KeyInvoker invoker) {
+    public static void foreach(List list, KeyInvoker invoker) throws Exception {
         foreach(list.toArray(), invoker);
     }
 
@@ -97,7 +93,7 @@ public class ListFocus implements Focus, ExportFocusHandle {
     }
 
     interface KeyInvoker {
-        void invoke(Object obj);
+        void invoke(Object obj) throws Exception;
     }
 
 }

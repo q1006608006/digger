@@ -1,5 +1,7 @@
 package test;
 
+import org.junit.Test;
+
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -17,6 +19,17 @@ import java.util.stream.Stream;
  */
 public class SaTest {
 
+    /**
+     * peek : id
+     * focus : {"type":"","target":"","key":"","interceptor":{"type":"test","target":"regex[\\s]","key":"#abc#"}}
+     */
+
+    private String peek;
+    private FocusBean focus;
+
+    /**
+     * filters : {"id":{"type":"","target":"","order":"","interceptor":{"type":"test","target":"regex[\\s]","order":"#abc#"}},"value":{"type":"","target":"","order":"","interceptor":null}}
+     */
     @org.junit.Test
     public void initLoad() throws Exception {
 //        BufferedReader reader = new BufferedReader(new InputStreamReader(System.class.getResourceAsStream("/sa-config.xml")));
@@ -36,6 +49,22 @@ public class SaTest {
             System.out.println(p.getAnnotation(ParameterName.class).value());
         });
 
+    }
+
+    public String getPeek() {
+        return peek;
+    }
+
+    public void setPeek(String peek) {
+        this.peek = peek;
+    }
+
+    public FocusBean getFocus() {
+        return focus;
+    }
+
+    public void setFocus(FocusBean focus) {
+        this.focus = focus;
     }
 
     public static interface Test {
@@ -67,5 +96,88 @@ public class SaTest {
             System.out.println(p.isNamePresent());
             System.out.println(p.getAnnotation(ParameterName.class).value());
         });
+    }
+
+
+    public static class FocusBean {
+        /**
+         * type :
+         * target :
+         * key :
+         * interceptor : {"type":"test","target":"regex[\\s]","key":"#abc#"}
+         */
+
+        private String type;
+        private String target;
+        private String key;
+        private InterceptorBean interceptor;
+
+        public String getType() {
+            return type;
+        }
+
+        public void setType(String type) {
+            this.type = type;
+        }
+
+        public String getTarget() {
+            return target;
+        }
+
+        public void setTarget(String target) {
+            this.target = target;
+        }
+
+        public String getKey() {
+            return key;
+        }
+
+        public void setKey(String key) {
+            this.key = key;
+        }
+
+        public InterceptorBean getInterceptor() {
+            return interceptor;
+        }
+
+        public void setInterceptor(InterceptorBean interceptor) {
+            this.interceptor = interceptor;
+        }
+
+        public static class InterceptorBean {
+            /**
+             * type : test
+             * target : regex[\s]
+             * key : #abc#
+             */
+
+            private String type;
+            private String target;
+            private String key;
+
+            public String getType() {
+                return type;
+            }
+
+            public void setType(String type) {
+                this.type = type;
+            }
+
+            public String getTarget() {
+                return target;
+            }
+
+            public void setTarget(String target) {
+                this.target = target;
+            }
+
+            public String getKey() {
+                return key;
+            }
+
+            public void setKey(String key) {
+                this.key = key;
+            }
+        }
     }
 }

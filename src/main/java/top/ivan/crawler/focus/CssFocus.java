@@ -1,4 +1,4 @@
-package top.ivan.crawler.core.focus;
+package top.ivan.crawler.focus;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Element;
@@ -25,12 +25,12 @@ public class CssFocus implements Focus {
      * @return
      */
     @Override
-    public String peek(String src, String target, String key) {
+    public String peek(String src, String target, String key) throws Exception {
         Elements elements = Jsoup.parse(src).select(target);
         return anyKey(elements, key);
     }
 
-    private String anyKey(Elements els, String key) {
+    private String anyKey(Elements els, String key) throws Exception {
         if (null == key || "".equals(key) || !key.startsWith("list:")) {
             StringBuilder sb = new StringBuilder();
             ListFocus.foreach(els.toArray(), o -> sb.append(anyElement((Element) o, key)).append("\n"));

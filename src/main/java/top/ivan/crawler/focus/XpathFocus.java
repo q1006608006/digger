@@ -1,4 +1,4 @@
-package top.ivan.crawler.core.focus;
+package top.ivan.crawler.focus;
 
 import org.htmlcleaner.HtmlCleaner;
 import org.htmlcleaner.TagNode;
@@ -20,14 +20,14 @@ public class XpathFocus implements Focus {
      * @throws XPatherException
      */
     @Override
-    public String peek(String src, String target, String key) throws XPatherException {
+    public String peek(String src, String target, String key) throws Exception {
         HtmlCleaner cleaner = new HtmlCleaner();
         TagNode tagNode = cleaner.clean(src);
         Object[] objs = tagNode.evaluateXPath(target);
         return anyKey(objs, key);
     }
 
-    public String anyKey(Object[] nodes, String key) {
+    public String anyKey(Object[] nodes, String key) throws Exception {
         if (null == key || "".equals(key) || !key.startsWith("list:")) {
             StringBuilder sb = new StringBuilder();
             ListFocus.foreach(nodes, o -> sb.append(anyNode((TagNode) o, key)).append("\n"));

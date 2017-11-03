@@ -1,5 +1,6 @@
 package top.ivan.crawler.core;
 
+import top.ivan.crawler.ExportFocusHandle;
 import top.ivan.crawler.Focus;
 import top.ivan.crawler.FocusManager;
 
@@ -21,6 +22,9 @@ public class DefaultFocusManager implements FocusManager {
 
     public void setFocus(String type,Focus focus) {
         focusMap.put(type,focus);
+        if(focus instanceof ExportFocusHandle) {
+            ((ExportFocusHandle) focus).setManager(this);
+        }
     }
 
     public Focus removeFocus(String type) {
