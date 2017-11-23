@@ -1,0 +1,45 @@
+{
+  "target":"url",
+  "type":"json",
+  "filters": [
+    {
+      "peek":"json",
+      "defaultValue":"null",
+      "focus": {
+        "type":"css",
+        "target":"script",
+        "interceptor": {
+          "type": "regex",
+          "target": "[\\s\\S]*TShop\\.Setup\\(([\\s\\S]*?)\\);[\\s\\S]*",
+          "key": "$1",
+          "interceptor": {
+            "type": "json",
+            "target": "valItemInfo.skuList",
+            "interceptor": {
+              "type": "list",
+              "target": "json[pvs]"
+            }
+          }
+        }
+      }
+    },
+    {
+      "peek":"value",
+      "type": "regex",
+      "target": "[\\s\\S]*TShop\\.Setup\\(([\\s\\S]*?)\\);[\\s\\S]*",
+      "key": "$1",
+      "interceptor": {
+        "type": "json",
+        "target": "valItemInfo.skuList",
+        "interceptor": {
+          "type": "list",
+          "target": "json[pvs]"
+        }
+      }
+    }
+  ],
+  "category":{
+    "location":"taobao",
+    "id":""
+  }
+}

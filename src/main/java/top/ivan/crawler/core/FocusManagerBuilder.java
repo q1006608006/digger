@@ -29,7 +29,7 @@ public class FocusManagerBuilder {
     }
 
     public static class Config {
-        private final String defaultJson = "[{\"type\":\"css\",\"class\":\"top.ivan.crawler.focus.CssFocus\"},{\"type\":\"json\",\"class\":\"top.ivan.crawler.focus.JsonFocus\"},{\"type\":\"list\",\"class\":\"top.ivan.crawler.focus.ListFocus\"},{\"type\":\"regex\",\"class\":\"top.ivan.crawler.focus.RegexFocus\"},{\"type\":\"test\",\"class\":\"top.ivan.crawler.focus.TestFocus\"},{\"type\":\"type\",\"class\":\"top.ivan.crawler.focus.TypeFocus\"},{\"type\":\"xpath\",\"class\":\"top.ivan.crawler.focus.XpathFocus\"}]";
+        private final String defaultJson = "[{\"type\":\"css\",\"class\":\"top.ivan.crawler.focus.CssFocus\"},{\"type\":\"json\",\"class\":\"top.ivan.crawler.focus.JsonFocus\"},{\"type\":\"list\",\"class\":\"top.ivan.crawler.focus.ListFocus\"},{\"type\":\"regex\",\"class\":\"top.ivan.crawler.focus.RegexFocus\"},{\"type\":\"test\",\"class\":\"top.ivan.crawler.focus.TestFocus\"},{\"type\":\"type\",\"class\":\"top.ivan.crawler.focus.TypeFocus\"},{\"type\":\"xpath\",\"class\":\"top.ivan.crawler.focus.XpathFocus\"},{\"type\":\"value\",\"class\":\"top.ivan.crawler.focus.TypeFocus\"}]";
         private Map<String, Class<? extends Focus>> typeMapping = new HashMap<>();
         public Config file(File file) throws IOException,ClassNotFoundException,UnSupportFocusException {
             FileReader fileReader = new FileReader(file);

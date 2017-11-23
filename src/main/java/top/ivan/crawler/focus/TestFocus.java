@@ -49,7 +49,7 @@ public class TestFocus implements Focus,ExportFocusHandle {
         if(null == src) {
             return "";
         } else {
-            return src.toString();
+            return JsonFocus.toJson(src);
         }
     }
 

@@ -20,6 +20,7 @@ public class DefaultGriddleAisle extends AbstractGriddleAisle {
 
     @Override
     public String pass(String src, Map<String, String> peeMap) throws Exception {
+        ThreadLocal<Map<String,String>> threadLocal = new ThreadLocal<>();
         List<FocusWallet> focusWallets = getFocusWallets();
         String target,key,ret = src;
         FocusWallet wallet;

@@ -1,9 +1,6 @@
 package top.ivan.crawler.focus;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
+import com.google.gson.*;
 import top.ivan.crawler.Focus;
 
 import java.lang.reflect.Type;
@@ -20,58 +17,59 @@ public class JsonFocus implements Focus {
 
     /**
      * json type data select
+     *
      * @param src
      * @param target data path
-     * @param key unused
+     * @param key    unused
      * @return
      */
     @Override
     public String peek(String src, String target, String key) {
-        if(null == TestFocus.nullValue(target)) {
+        if (null == TestFocus.nullValue(target)) {
             target = key;
         }
-        return takeJsonValue(src,target);
+        return takeJsonValue(src, target);
     }
 
-    public static String takeJsonValue(String src,String path) {
-        return toJson(takeObject(fromJson(src,JsonElement.class),path));
+    public static String takeJsonValue(String src, String path) {
+        return toJson(takeObject(fromJson(src, JsonElement.class), path));
     }
 
-    public static <T> T takeFormatObject(String src,String path,Type type) {
-        JsonElement o = (JsonElement) takeObject(fromJson(src,JsonElement.class),path);
-        return GSON.fromJson(o,type);
+    public static <T> T takeFormatObject(String src, String path, Type type) {
+        JsonElement o = (JsonElement) takeObject(fromJson(src, JsonElement.class), path);
+        return GSON.fromJson(o, type);
     }
 
-    private static Object takeObject(JsonElement json,String path) {
+    private static Object takeObject(JsonElement json, String path) {
         String[] parts = path.split("\\.");
         JsonElement temp = json;
         String key;
-        for(int i = 0;i < parts.length; i++) {
+        for (int i = 0; i < parts.length; i++) {
             key = parts[i];
-            temp = anyKey(temp,key);
+            temp = anyKey(temp, key);
         }
         return temp;
     }
 
-    private static JsonElement anyKey(JsonElement json,String key) {
-        if(key.contains("[")) {
-            return getArrayValue(json,key);
+    private static JsonElement anyKey(JsonElement json, String key) {
+        if (key.contains("[")) {
+            return getArrayValue(json, key);
         }
         return json.getAsJsonObject().get(key);
     }
 
     private static JsonElement getArrayValue(JsonElement json, String curkey) {
         Matcher matcher = pattern.matcher(curkey);
-        String key = curkey.replaceAll("\\[\\S*","");
+        String key = curkey.replaceAll("\\[\\S*", "");
         JsonArray array;
-        if("".equals(key)) {
+        if ("".equals(key)) {
             array = json.getAsJsonArray();
         } else {
             array = json.getAsJsonObject().getAsJsonArray(key);
         }
         while (matcher.find()) {
             json = array.get(Integer.valueOf(matcher.group(1)));
-            if(json instanceof JsonArray) {
+            if (json instanceof JsonArray) {
                 array = (JsonArray) json;
             }
         }
@@ -82,14 +80,15 @@ public class JsonFocus implements Focus {
     private static final Gson GSON = new GsonBuilder().create();
 
     public static <T> T fromJson(String json, Type type) {
-        return GSON.fromJson(json,type);
+        return GSON.fromJson(json, type);
     }
+
     public static String toJson(Object obj) {
         return GSON.toJson(obj);
     }
 
-    public static <T> T fromJson(String json,Class<? extends T> clazz) {
-        return GSON.fromJson(json,clazz);
+    public static <T> T fromJson(String json, Class<? extends T> clazz) {
+        return GSON.fromJson(json, clazz);
     }
 
 }

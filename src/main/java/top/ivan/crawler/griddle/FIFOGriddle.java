@@ -1,6 +1,7 @@
 package top.ivan.crawler.griddle;
 
 import top.ivan.crawler.Griddle;
+import top.ivan.crawler.focus.TestFocus;
 
 import java.util.*;
 
@@ -24,13 +25,15 @@ public class FIFOGriddle implements Griddle {
     @Override
     public Map<String, String> doFilter(String src) {
         Map<String,String> retMap = new HashMap<>();
-        GriddleAisle aisle;
-        for(int i=0;i<aisleList.size();i++) {
-            aisle = aisleList.get(i);
-            try {
-                retMap.put(aisle.getPeek(),aisle.pass(src,retMap));
-            } catch (Exception e) {
-                retMap.put(aisle.getPeek(),aisle.getDefaultValue());
+        if(null != TestFocus.nullValue(src)) {
+            GriddleAisle aisle;
+            for (int i = 0; i < aisleList.size(); i++) {
+                aisle = aisleList.get(i);
+                try {
+                    retMap.put(aisle.getPeek(), aisle.pass(src, retMap));
+                } catch (Exception e) {
+                    retMap.put(aisle.getPeek(), aisle.getDefaultValue());
+                }
             }
         }
         return retMap;
@@ -38,6 +41,10 @@ public class FIFOGriddle implements Griddle {
 
     public void setAisles(List<GriddleAisle> aisleList) {
         this.aisleList = aisleList;
+    }
+
+    public void addAisle(GriddleAisle aisle) {
+        this.aisleList.add(aisle);
     }
 
 }

@@ -4,6 +4,7 @@ import top.ivan.crawler.*;
 import top.ivan.crawler.ExportFocusHandle;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -17,7 +18,12 @@ public class ListFocus implements Focus, ExportFocusHandle {
 
     @Override
     public String peek(String src, String target, String key) throws Exception {
-        List list = JsonFocus.fromJson(src, List.class);
+        List list;
+        if(!src.startsWith("[") && !src.endsWith("]")) {
+            list = Arrays.asList(src.split(","));
+        } else {
+            list = JsonFocus.fromJson(src, List.class);
+        }
         if (ExportFocusHandle.isExportTarget(target)) {
             Focus focus = ExportFocusHandle.getExportFocus(target,manager);
             target = ExportFocusHandle.getExportTarget(target);
