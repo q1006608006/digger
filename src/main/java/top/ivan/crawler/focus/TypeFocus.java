@@ -26,6 +26,16 @@ public class TypeFocus implements Focus {
         typeMap.put("list",List.class);
         typeMap.put("map",Map.class);
     }
+
+    /**
+     *
+     * @param src
+     * @param target type of src
+     * @param key not used
+     * @return Object::toString
+     * @throws Exception
+     *
+     */
     @Override
     public String peek(String src, String target, String key) throws Exception {
         Class<?> typeClass = typeMap.get(target);

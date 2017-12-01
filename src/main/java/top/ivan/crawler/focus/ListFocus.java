@@ -16,9 +16,21 @@ import java.util.List;
 public class ListFocus implements Focus, ExportFocusHandle {
     private FocusManager manager;
 
+    /**
+     * @param src
+     * @param target
+     * @param key
+     * @return
+     * @throws Exception
+     *
+     * @targetType {focus}[{realTarget}] or parseNull
+     * @keyType {realKey} to inner focus's key
+     * @parseNull $:""->null, #:null->"", +:null->"null", -:null->skip(if target start with '@'(ex:@+),then "" will be translate to null)
+     */
     @Override
     public String peek(String src, String target, String key) throws Exception {
         List list;
+        src = src.trim();
         if(!src.startsWith("[") && !src.endsWith("]")) {
             list = Arrays.asList(src.split(","));
         } else {
@@ -36,7 +48,7 @@ public class ListFocus implements Focus, ExportFocusHandle {
     private List parseExport(List src, Focus mod, String target, String key) throws Exception {
         List result = new ArrayList();
         foreach(src, o -> {
-            result.add(mod.peek(TestFocus.notNullValue(o), target, key));
+            result.add(mod.peek(JsonFocus.toJson(o), target, key));
         });
         return result;
     }

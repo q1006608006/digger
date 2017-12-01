@@ -42,6 +42,15 @@ public class AisleBean {
         private String type;
         private String key;
         private FocusInfo interceptor;
+        private String defaultValue;
+
+        public String getDefaultValue() {
+            return defaultValue;
+        }
+
+        public void setDefaultValue(String defaultValue) {
+            this.defaultValue = defaultValue;
+        }
 
         public String getTarget() {
             return target;

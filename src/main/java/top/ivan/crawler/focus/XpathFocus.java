@@ -15,7 +15,7 @@ public class XpathFocus implements Focus {
     /**
      * @param src
      * @param target xpath target
-     * @param key
+     * @param key if start with 'list:' then return value may struct by json else values may be appended by '\n'
      * @return list of attribute
      * @throws XPatherException
      */

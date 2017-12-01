@@ -21,7 +21,7 @@ public class CssFocus implements Focus {
      *
      * @param src
      * @param target jsoup - selector
-     * @param key    attribute or list:attribute
+     * @param key    attribute or list:attribute(json list),if start with 'list:' then return value may struct by json else values may be appended by '\n'
      * @return
      */
     @Override

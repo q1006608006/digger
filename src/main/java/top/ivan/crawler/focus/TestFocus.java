@@ -4,6 +4,7 @@ import top.ivan.crawler.ExportFocusHandle;
 import top.ivan.crawler.Focus;
 import top.ivan.crawler.FocusManager;
 import top.ivan.crawler.UnSupportFocusException;
+import top.ivan.crawler.core.FocusManagerBuilder;
 import top.ivan.crawler.utils.Calculator;
 
 import java.util.LinkedHashMap;
@@ -19,18 +20,33 @@ public class TestFocus implements Focus,ExportFocusHandle {
 
 
     private FocusManager manager;
+
+    /**
+     * @param src
+     * @param target
+     * @param key
+     * @return
+     * @throws Exception
+     *
+     * @targetType {focus}[{realTarget}]
+     * @keyType {test expression}[{realKey}]
+     * @example src: {'id':20171119,'info':'hello world!'} target: json[info] key: @id@(math)=20171119[info]
+     * @@{value}@ take JsonValue: @id@ ==> 20171119
+     * @#{value}# just take value #id# ==> id
+     * @${value}$ take replace value,just like String::replaceAll(regex,"$1"),example: $\{'id':(\d+).*$ ==> 20171119
+     * @$ $==> {'id':20171119,'info':'hello world!'}
+     */
     @Override
     public String peek(String src, String target, String key) throws Exception {
 
         KeyOrder keyOrder = KeyOrder.getKeyOrder(key);
         String srcType = keyOrder.getOriginal();
         if(keyOrder.pass(peekKey(src,srcType),keyOrder.getOrder())) {
-
             String exportTarget = ExportFocusHandle.getExportTarget(target);
             Focus focus = ExportFocusHandle.getExportFocus(target,manager);
             return focus.peek(src,exportTarget,keyOrder.getRealKey());
         }
-        return src;
+        throw new UnSupportFocusException("can not pass TestFocus test");
     }
 
     @Override
@@ -45,11 +61,10 @@ public class TestFocus implements Focus,ExportFocusHandle {
         return src.toString();
     }
     public static String notNullValue(Object src) {
-
         if(null == src) {
             return "";
         } else {
-            return JsonFocus.toJson(src);
+            return src.toString();
         }
     }
 

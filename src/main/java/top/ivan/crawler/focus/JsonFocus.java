@@ -19,8 +19,8 @@ public class JsonFocus implements Focus {
      * json type data select
      *
      * @param src
-     * @param target data path
-     * @param key    unused
+     * @param target data path (ex: src:{'id':20171119} target:id ==> 20171119)
+     * @param key    if target is null,then path will use key value
      * @return
      */
     @Override
@@ -32,7 +32,11 @@ public class JsonFocus implements Focus {
     }
 
     public static String takeJsonValue(String src, String path) {
-        return toJson(takeObject(fromJson(src, JsonElement.class), path));
+        Object obj = takeObject(fromJson(src, JsonElement.class), path);
+        if(obj instanceof JsonPrimitive || (obj instanceof JsonArray && ((JsonArray) obj).size() == 1)) {
+            return ((JsonElement)obj).getAsString();
+        }
+        return toJson(obj);
     }
 
     public static <T> T takeFormatObject(String src, String path, Type type) {
@@ -84,6 +88,9 @@ public class JsonFocus implements Focus {
     }
 
     public static String toJson(Object obj) {
+        if(obj instanceof String) {
+            return (String) obj;
+        }
         return GSON.toJson(obj);
     }
 

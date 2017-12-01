@@ -11,5 +11,5 @@ import java.util.Map;
  * @date 2017/11/1
  */
 public interface Griddle {
-    Map<String,String> doFilter(String src);
+    Map<String,String> doFilter(String src,Map<String,String> keyMap);
 }

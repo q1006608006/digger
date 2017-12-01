@@ -1,6 +1,7 @@
 package top.ivan.crawler.focus;
 
 import top.ivan.crawler.Focus;
+import top.ivan.crawler.UnSupportFocusException;
 
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -20,9 +21,13 @@ public class RegexFocus implements Focus {
      * @param target replace source
      * @param key replacement
      * @return
+     * @example src: "hello world",target: ".*(l+)",key: "$1ive" ==> "lived"
      */
     @Override
-    public String peek(String src, String target, String key) {
+    public String peek(String src, String target, String key) throws Exception {
+        if(!src.matches(".*"+target+".*")) {
+            throw new UnSupportFocusException("can not match any");
+        }
         return src.replaceAll(target, key);
     }
 
@@ -32,6 +37,9 @@ public class RegexFocus implements Focus {
     public static String peeKey(String key, Map<String, String> tempMap) {
         if(key == null) {
             return null;
+        }
+        if(key.equalsIgnoreCase("{$$}")) {
+            return JsonFocus.toJson(tempMap);
         }
         Matcher matcher = $_pattern.matcher(key);
         String repart,rekey,temp;

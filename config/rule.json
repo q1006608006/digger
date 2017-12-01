@@ -9,6 +9,7 @@
                 "type":"regex",
                 "target":"[\\s\\S]*\\[id=\"([\\s\\S]*?)\"\\][\\s\\S]*",
                 "key":"[$1]",
+                "defaultValue":"akb",
                 "interceptor":{
                     "type":"list",
                     "target":"@-",
