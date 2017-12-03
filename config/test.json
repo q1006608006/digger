@@ -40,9 +40,25 @@
             "interceptor": {
               "type": "list",
               "key": "{$$}",
-              "target": "map[value[!json]]"
+              "target": "map[value[!json]]",
+              "interceptor": {
+                "type": "json",
+                "target": "value"
+              }
             }
           }
+        }
+      }
+    },
+    {
+      "peek": "result",
+      "focus": {
+        "type": "value",
+        "key": "{$value}",
+        "interceptor": {
+          "type": "list",
+          "key": "{$$}",
+          "target": "map[value[!json]]"
         }
       }
     }/*,

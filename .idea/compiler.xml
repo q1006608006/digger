@@ -6,11 +6,14 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="MFMP" />
+        <module name="griddle" />
+        <module name="uav" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="1.8">
+      <module name="griddle" target="1.8" />
       <module name="MFMP" target="1.8" />
+      <module name="uav" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>
