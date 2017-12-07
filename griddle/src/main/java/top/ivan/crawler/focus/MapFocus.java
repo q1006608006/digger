@@ -57,9 +57,4 @@ public class MapFocus implements Focus {
         }
         return target;
     }
-
-    public static void main(String[] args) {
-        System.out.println(getPutKey("a23b!sdb]"));
-        System.out.println(isIgnore("a23b[!sdb]"));
-    }
 }

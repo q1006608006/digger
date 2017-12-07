@@ -3,8 +3,8 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/MFMP.iml" filepath="$PROJECT_DIR$/MFMP.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Sagittarius/Sagittarius.iml" filepath="$PROJECT_DIR$/Sagittarius/Sagittarius.iml" />
       <module fileurl="file://$PROJECT_DIR$/griddle/griddle.iml" filepath="$PROJECT_DIR$/griddle/griddle.iml" />
-      <module fileurl="file://$PROJECT_DIR$/uav/uav.iml" filepath="$PROJECT_DIR$/uav/uav.iml" />
     </modules>
   </component>
 </project>
