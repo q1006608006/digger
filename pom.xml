@@ -7,7 +7,7 @@
     <version>1.0-SNAPSHOT</version>
     <modules>
         <module>griddle</module>
-        <module>Sagittarius</module>
+        <module>npv</module>
     </modules>
     <name>MFMP Maven Webapp</name>
     <url>http://maven.apache.org</url>
